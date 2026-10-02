@@ -1,1 +1,339 @@
-index.html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Duck Race Name Picker</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Fredoka', cursive, sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
+            min-height: 100vh;
+            margin: 0;
+            overflow-x: hidden;
+        }
+        .duck-bob {
+            animation: bobbing 1.5s ease-in-out infinite alternate;
+        }
+        @keyframes bobbing {
+            0% { transform: translateY(0px) rotate(-3deg); }
+            100% { transform: translateY(-6px) rotate(3deg); }
+        }
+        .water-wave {
+            background: linear-gradient(90deg, #0284c7, #0369a1, #0284c7);
+            background-size: 200% 100%;
+            animation: waveMotion 4s linear infinite;
+        }
+        @keyframes waveMotion {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 0%; }
+        }
+        .cloud-move {
+            animation: cloudDrift 25s linear infinite;
+        }
+        @keyframes cloudDrift {
+            from { transform: translateX(-150px); }
+            to { transform: translateX(calc(100vw + 150px)); }
+        }
+    </style>
+</head>
+<body class="flex flex-col min-h-screen text-slate-800">
+
+    <header class="bg-white/80 backdrop-blur-md border-b border-sky-100 px-6 py-3 flex items-center justify-between shadow-sm sticky top-0 z-50">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-amber-400 rounded-full flex items-center justify-center shadow-md border-2 border-amber-500 duck-bob">
+                <i class="fa-solid fa-feather text-white text-xl"></i>
+            </div>
+            <div>
+                <span class="text-xs font-bold text-sky-600 uppercase tracking-wider block">Free To Play</span>
+                <h1 class="text-xl font-bold text-slate-800 leading-tight">Duck Race <span class="text-amber-500">Name Picker</span></h1>
+            </div>
+        </div>
+        <div class="flex items-center space-x-3">
+            <button onclick="openSettingsModal()" class="bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold px-4 py-2 rounded-xl shadow transition transform active:scale-95 flex items-center gap-2">
+                <i class="fa-solid fa-list-check"></i> Edit List (<span id="participantCount">5</span>)
+            </button>
+            <button onclick="resetGame()" class="bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-3 py-2 rounded-xl shadow transition">
+                <i class="fa-solid fa-rotate-right"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-1 max-w-6xl w-full mx-auto p-4 md:p-6 flex flex-col gap-6">
+        
+        <!-- Game Screen Box -->
+        <div class="bg-white rounded-3xl shadow-xl border-4 border-sky-200 overflow-hidden relative flex flex-col">
+            
+            <!-- Sky Section -->
+            <div class="bg-gradient-to-b from-sky-300 to-sky-100 h-32 md:h-44 relative overflow-hidden flex items-start justify-between p-4 md:p-6">
+                <!-- Sun -->
+                <div class="absolute top-4 left-6 w-16 h-16 bg-yellow-300 rounded-full shadow-lg shadow-yellow-400/50 animate-pulse"></div>
+                <!-- Moving Clouds -->
+                <div class="absolute top-6 left-10 cloud-move opacity-80 text-white text-3xl"><i class="fa-solid fa-cloud"></i></div>
+                <div class="absolute top-12 left-1/2 cloud-move opacity-60 text-white text-2xl" style="animation-delay: -10s;"><i class="fa-solid fa-cloud"></i></div>
+
+                <!-- Timer / Big Clock Display -->
+                <div class="mx-auto bg-white/90 backdrop-blur border-4 border-sky-400 rounded-2xl px-6 py-2 shadow-lg flex items-center space-x-4 z-10">
+                    <i class="fa-solid fa-clock text-sky-500 text-3xl"></i>
+                    <div id="timerDisplay" class="text-3xl md:text-5xl font-extrabold tracking-widest text-slate-800 font-mono">00:00:00</div>
+                    <div class="flex flex-col text-xs text-slate-500 font-bold">
+                        <span>HH</span><span>MM</span><span>SS</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- River Track Section -->
+            <div class="water-wave relative h-72 md:h-96 border-t-4 border-sky-500 overflow-hidden flex flex-col justify-around py-2">
+                
+                <!-- Finish Line -->
+                <div class="absolute right-16 top-0 bottom-0 w-2 bg-red-500 z-20 flex flex-col justify-between items-center opacity-70">
+                    <div class="w-4 h-6 bg-white border border-red-500 text-[8px] font-bold text-center flex items-center justify-center">FINISH</div>
+                    <div class="w-4 h-6 bg-slate-900 border border-white text-[8px] font-bold text-center text-white flex items-center justify-center">FINISH</div>
+                </div>
+
+                <!-- Duck Lanes Container -->
+                <div id="duckTracks" class="relative w-full h-full flex flex-col justify-around px-4">
+                    <!-- Duck lanes will be dynamically generated here -->
+                </div>
+            </div>
+
+            <!-- Bottom Control Pad (Numbers & Set) -->
+            <div class="bg-slate-50 border-t border-sky-100 p-4 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex flex-wrap gap-2 items-center">
+                    <span class="text-xs font-bold text-slate-500 uppercase mr-2">Time Keypad:</span>
+                    <button onclick="appendKey('5')" class="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg shadow">5</button>
+                    <button onclick="appendKey('6')" class="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg shadow">6</button>
+                    <button onclick="appendKey('7')" class="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg shadow">7</button>
+                    <button onclick="appendKey('8')" class="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg shadow">8</button>
+                    <button onclick="appendKey('9')" class="w-10 h-10 bg-emerald-500 hover:bg-emerald-600 text-white font-bold rounded-lg shadow">9</button>
+                    <button onclick="setTimerValue()" class="px-4 h-10 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow">Set</button>
+                </div>
+                <div class="flex flex-wrap gap-2 items-center">
+                    <button onclick="appendKey('0')" class="w-10 h-10 bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold rounded-lg shadow">0</button>
+                    <button onclick="appendKey('1')" class="w-10 h-10 bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold rounded-lg shadow">1</button>
+                    <button onclick="appendKey('2')" class="w-10 h-10 bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold rounded-lg shadow">2</button>
+                    <button onclick="appendKey('3')" class="w-10 h-10 bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold rounded-lg shadow">3</button>
+                    <button onclick="appendKey('4')" class="w-10 h-10 bg-slate-300 hover:bg-slate-400 text-slate-800 font-bold rounded-lg shadow">4</button>
+                    <button onclick="clearTimer()" class="px-4 h-10 bg-slate-400 hover:bg-slate-500 text-white font-bold rounded-lg shadow">Clear</button>
+                </div>
+                <!-- Start Race Action Button -->
+                <div>
+                    <button id="startRaceBtn" onclick="startRace()" class="bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white font-extrabold text-lg px-8 py-3 rounded-2xl shadow-lg border-2 border-orange-300 transform transition active:scale-95 flex items-center gap-3">
+                        <i class="fa-solid fa-flag-checkered text-xl"></i> START RACE!
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <div id="settingsModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 shadow-2xl border-4 border-sky-200 flex flex-col gap-4">
+            <div class="flex justify-between items-center border-b pb-3">
+                <h3 class="text-xl font-bold text-slate-800"><i class="fa-solid fa-pen-to-square text-sky-500 mr-2"></i>Edit Participant List</h3>
+                <button onclick="closeSettingsModal()" class="text-slate-400 hover:text-slate-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <p class="text-sm text-slate-500">Nhập danh sách tên hoặc số tham gia đua (mỗi tên/số nằm trên một dòng riêng biệt):</p>
+            <textarea id="participantInput" rows="6" class="w-full border-2 border-sky-200 rounded-xl p-3 focus:outline-none focus:border-sky-500 font-medium"></textarea>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="closeSettingsModal()" class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-xl">Hủy</button>
+                <button onclick="saveParticipants()" class="px-5 py-2 bg-sky-500 hover:bg-sky-600 text-white font-bold rounded-xl shadow">Lưu danh sách</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="winnerModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden p-4 scale-95 transition-all duration-300">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 shadow-2xl border-4 border-amber-300 text-center flex flex-col items-center gap-4 relative overflow-hidden">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-amber-100 rounded-full -z-0"></div>
+            <div class="w-20 h-20 bg-amber-400 rounded-full flex items-center justify-center shadow-xl border-4 border-amber-500 text-white text-4xl duck-bob z-10">
+                <i class="fa-solid fa-trophy"></i>
+            </div>
+            <div class="z-10">
+                <span class="text-xs font-bold text-amber-600 uppercase tracking-widest">Người Chiến Thắng</span>
+                <h2 id="winnerNameDisplay" class="text-3xl font-extrabold text-slate-800 mt-1">Vịt Vàng Số 1</h2>
+                <p class="text-sm text-slate-500 mt-2">Đã vượt qua các đối thủ để về đích đầu tiên xuất sắc!</p>
+            </div>
+            <button onclick="closeWinnerModal()" class="w-full mt-2 bg-gradient-to-r from-amber-400 to-orange-500 hover:from-amber-500 hover:to-orange-600 text-white font-bold py-3 rounded-xl shadow-lg z-10">
+                Đua Vòng Mới <i class="fa-solid fa-arrow-right ml-2"></i>
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Initial participant names/numbers
+        let participants = ["Vịt Vàng Alpha", "Vịt Bơ Xinh", "Đại Bàng Đen", "Tốc Độ Sấm", "Hoàng Tử Vịt"];
+        let isRacing = false;
+        let timerInterval = null;
+        let secondsRemaining = 0;
+
+        // Duck color themes/icons
+        const duckColors = [
+            { bg: "bg-amber-400", border: "border-amber-600", text: "text-amber-900" },
+            { bg: "bg-yellow-300", border: "border-yellow-500", text: "text-yellow-900" },
+            { bg: "bg-orange-400", border: "border-orange-600", text: "text-orange-900" },
+            { bg: "bg-sky-400", border: "border-sky-600", text: "text-sky-900" },
+            { bg: "bg-emerald-400", border: "border-emerald-600", text: "text-emerald-900" },
+            { bg: "bg-rose-400", border: "border-rose-600", text: "text-rose-900" },
+            { bg: "bg-purple-400", border: "border-purple-600", text: "text-purple-900" }
+        ];
+
+        // Initialize Tracks
+        function renderTracks() {
+            const container = document.getElementById('duckTracks');
+            container.innerHTML = '';
+            document.getElementById('participantCount').innerText = participants.length;
+
+            participants.forEach((name, index) => {
+                const colorTheme = duckColors[index % duckColors.length];
+                const trackRow = document.createElement('div');
+                trackRow.className = "relative w-full flex items-center h-10 border-b border-sky-400/30";
+                trackRow.innerHTML = `
+                    <div id="duck-${index}" class="absolute left-2 transition-all duration-75 flex items-center space-x-2 z-10" style="left: 0%;">
+                        <div class="w-9 h-9 ${colorTheme.bg} rounded-full flex items-center justify-center shadow-md border-2 ${colorTheme.border} duck-bob cursor-pointer" title="${name}">
+                            <i class="fa-solid fa-feather text-white text-sm"></i>
+                            <span class="absolute -top-3 bg-white/90 text-[10px] font-bold px-1 rounded border border-slate-200">${index + 1}</span>
+                        </div>
+                        <div class="bg-white/90 backdrop-blur px-2 py-0.5 rounded-lg shadow text-xs font-bold text-slate-700 whitespace-nowrap border border-sky-200">
+                            ${name}
+                        </div>
+                    </div>
+                `;
+                container.appendChild(trackRow);
+            });
+        }
+
+        // Settings Modal Handlers
+        function openSettingsModal() {
+            if (isRacing) return;
+            document.getElementById('participantInput').value = participants.join('\n');
+            document.getElementById('settingsModal').classList.remove('hidden');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settingsModal').classList.add('hidden');
+        }
+
+        function saveParticipants() {
+            const val = document.getElementById('participantInput').value.trim();
+            if (val) {
+                participants = val.split('\n').map(item => item.trim()).filter(item => item.length > 0);
+                if (participants.length === 0) {
+                    participants = ["Vịt Mặc Định"];
+                }
+                renderTracks();
+                closeSettingsModal();
+            }
+        }
+
+        // Timer Keypad Functions
+        function appendKey(num) {
+            let display = document.getElementById('timerDisplay');
+            let current = display.innerText.replace(/:/g, '');
+            current = current.slice(1) + num;
+            // Format back to HH:MM:SS
+            display.innerText = `${current.slice(0,2)}:${current.slice(2,4)}:${current.slice(4,6)}`;
+        }
+
+        function clearTimer() {
+            document.getElementById('timerDisplay').innerText = "00:00:00";
+            if (timerInterval) clearInterval(timerInterval);
+        }
+
+        function setTimerValue() {
+            // Quick set example timer
+            document.getElementById('timerDisplay').innerText = "00:00:10";
+            secondsRemaining = 10;
+        }
+
+        // Start Race Function
+        function startRace() {
+            if (isRacing) return;
+            isRacing = true;
+            document.getElementById('startRaceBtn').disabled = true;
+            document.getElementById('startRaceBtn').classList.add('opacity-50', 'cursor-not-allowed');
+
+            // Reset duck positions
+            let positions = participants.map(() => 0);
+            let finished = false;
+            let winnerIndex = -1;
+
+            // Timer countdown if set
+            let display = document.getElementById('timerDisplay');
+            let timeStr = display.innerText.split(':');
+            secondsRemaining = parseInt(timeStr[0]) * 3600 + parseInt(timeStr[1]) * 60 + parseInt(timeStr[2]);
+
+            if (timerInterval) clearInterval(timerInterval);
+            
+            timerInterval = setInterval(() => {
+                if (secondsRemaining > 0) {
+                    secondsRemaining--;
+                    let h = String(Math.floor(secondsRemaining / 3600)).padStart(2, '0');
+                    let m = String(Math.floor((secondsRemaining % 3600) / 60)).padStart(2, '0');
+                    let s = String(secondsRemaining % 60).padStart(2, '0');
+                    display.innerText = `${h}:${m}:${s}`;
+                }
+            }, 1000);
+
+            // Race animation loop
+            const raceInterval = setInterval(() => {
+                if (finished) return;
+
+                for (let i = 0; i < participants.length; i++) {
+                    // Random increment to simulate natural variable swimming speed
+                    positions[i] += Math.random() * 2.5 + 0.5;
+                    
+                    // Cap at finish line (approx 85% width)
+                    if (positions[i] >= 85) {
+                        positions[i] = 85;
+                        if (!finished) {
+                            finished = true;
+                            winnerIndex = i;
+                            endRace(winnerIndex, raceInterval);
+                        }
+                    }
+
+                    const duckEl = document.getElementById(`duck-${i}`);
+                    if (duckEl) {
+                        duckEl.style.left = positions[i] + '%';
+                    }
+                }
+            }, 50);
+        }
+
+        function endRace(winnerIdx, intervalId) {
+            clearInterval(intervalId);
+            if (timerInterval) clearInterval(timerInterval);
+            isRacing = false;
+
+            document.getElementById('startRaceBtn').disabled = false;
+            document.getElementById('startRaceBtn').classList.remove('opacity-50', 'cursor-not-allowed');
+
+            // Show winner modal
+            setTimeout(() => {
+                document.getElementById('winnerNameDisplay').innerText = participants[winnerIdx];
+                document.getElementById('winnerModal').classList.remove('hidden');
+            }, 400);
+        }
+
+        function closeWinnerModal() {
+            document.getElementById('winnerModal').classList.add('hidden');
+            resetGame();
+        }
+
+        function resetGame() {
+            isRacing = false;
+            if (timerInterval) clearInterval(timerInterval);
+            document.getElementById('timerDisplay').innerText = "00:00:00";
+            renderTracks();
+        }
+
+        // Initialize on load
+        window.onload = function() {
+            renderTracks();
+        };
+    </script>
+</body>
+</html>

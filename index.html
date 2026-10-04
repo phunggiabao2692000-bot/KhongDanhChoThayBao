@@ -1,801 +1,143 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Duck Race Name Picker</title>
+/* =========================
+   CON VỊT
+   ========================= */
 
-<style>
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #dff6ff;
-    color: #17324d;
-}
-
-/* HEADER */
-header {
-    height: 85px;
-    background: white;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 30px;
-    box-shadow: 0 3px 10px rgba(0,0,0,.12);
-}
-
-.logo {
-    font-size: 25px;
-    font-weight: 900;
-    color: #12395a;
-}
-
-.logo span {
-    color: #f5a900;
-}
-
-.header-buttons {
-    display: flex;
-    gap: 12px;
-}
-
-button {
-    border: none;
-    cursor: pointer;
-    font-weight: bold;
-}
-
-.edit-btn {
-    background: #ffb718;
-    color: white;
-    padding: 16px 25px;
-    border-radius: 15px;
-    font-size: 17px;
-}
-
-.reset-btn {
-    background: white;
-    color: #24516d;
-    padding: 15px 20px;
-    border-radius: 15px;
-    font-size: 20px;
-    box-shadow: 0 2px 7px #bbb;
-}
-
-/* GAME */
-.game {
-    min-height: 650px;
-    position: relative;
-    overflow: hidden;
-
-    background:
-        linear-gradient(
-            #8edbff 0%,
-            #bceeff 42%,
-            #079ddd 42%,
-            #0584bd 100%
-        );
-}
-
-/* SUN */
-.sun {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    background: #ffe55c;
-    border-radius: 50%;
-    top: 35px;
-    left: 35px;
-    box-shadow: 0 5px 15px rgba(255,180,0,.3);
-}
-
-/* TIMER */
-.timer {
-    position: relative;
-    margin: 35px auto 90px;
-    width: 380px;
-    height: 90px;
-
-    background: white;
-    border: 5px solid #20a9e8;
-    border-radius: 20px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-size: 48px;
-    font-weight: bold;
-    letter-spacing: 4px;
-
-    box-shadow: 0 5px 10px rgba(0,0,0,.15);
-}
-
-/* TRACK */
-.race-track {
-    position: relative;
-    width: 100%;
-    min-height: 430px;
-    padding-top: 5px;
-}
-
-/* FINISH */
-.finish {
-    position: absolute;
-    right: 7%;
-    top: 0;
-    bottom: 0;
-
-    width: 14px;
-    background: #ff5870;
-    border-left: 3px solid white;
-    border-right: 3px solid white;
-
-    z-index: 2;
-}
-
-.finish-label {
-    position: absolute;
-    right: calc(7% - 30px);
-    top: -25px;
-    background: white;
-    padding: 5px;
-    font-size: 11px;
-    font-weight: bold;
-}
-
-/* LANE */
-.lane {
-    position: relative;
-    height: 53px;
-    border-bottom: 1px solid rgba(255,255,255,.18);
-}
-
-/* NUMBER */
-.number {
-    position: absolute;
-    left: 25px;
-    top: 8px;
-
-    width: 30px;
-    height: 30px;
-
-    background: white;
-    border-radius: 9px;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    font-weight: bold;
-    z-index: 4;
-}
-
-/* DUCK */
 .duck {
     position: absolute;
     left: 65px;
-    top: 2px;
+    top: 8px;
 
-    font-size: 40px;
+    width: 43px;
+    height: 30px;
+
+    border-radius: 55% 48% 48% 55%;
 
     z-index: 5;
 
     transition: left .08s linear;
 
-    filter: drop-shadow(2px 3px 2px rgba(0,0,0,.25));
+    /* QUAY MẶT SANG PHẢI */
+    transform: scaleX(1);
+
+    box-shadow:
+        inset -5px -5px 0 rgba(0,0,0,.12),
+        2px 3px 4px rgba(0,0,0,.25);
 }
 
-/* NAME */
-.name {
+/* ĐẦU */
+.duck::before {
+    content: "";
+
     position: absolute;
-    left: 115px;
-    top: 9px;
 
-    background: white;
-    padding: 7px 12px;
+    width: 28px;
+    height: 28px;
 
-    border-radius: 12px;
+    background: inherit;
 
-    font-weight: bold;
-    font-size: 15px;
+    border-radius: 50%;
 
-    z-index: 4;
-
-    max-width: 180px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    right: -3px;
+    top: -13px;
 }
 
-/* CONTROLS */
-.controls {
-    background: white;
-    padding: 20px 25px 30px;
+/* MỎ - hướng sang PHẢI */
+.duck::after {
+    content: "";
+
+    position: absolute;
+
+    width: 16px;
+    height: 8px;
+
+    background: #ff8b20;
+
+    border-radius: 20% 80% 80% 20%;
+
+    right: -16px;
+    top: -3px;
 }
 
-.keypad {
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    flex-wrap: wrap;
+/* =========================
+   MÀU LÔNG
+   ========================= */
+
+.duck.yellow {
+    background: #ffd92f;
 }
 
-.keypad button {
-    width: 58px;
-    height: 52px;
-
-    border-radius: 12px;
-
-    background: #dce8f0;
-    color: #17324d;
-
-    font-size: 20px;
+.duck.red {
+    background: #ef4444;
 }
 
-.keypad .green {
-    background: #13ba86;
-    color: white;
+.duck.blue {
+    background: #38a8ff;
 }
 
-.start {
-    display: block;
-
-    margin: 20px 0 0 30px;
-
-    background: #ff9417;
-    color: white;
-
-    padding: 18px 35px;
-
-    border-radius: 17px;
-
-    font-size: 22px;
-
-    box-shadow: 0 4px 0 #d97000;
+.duck.green {
+    background: #35c759;
 }
 
-.start:active {
-    transform: translateY(3px);
-    box-shadow: 0 1px 0 #d97000;
+.duck.purple {
+    background: #a855f7;
 }
 
-/* WINNER */
-.winner {
-    display: none;
-
-    position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,.65);
-
-    align-items: center;
-    justify-content: center;
-
-    z-index: 100;
+.duck.orange {
+    background: #ff8c20;
 }
 
-.winner-box {
-    background: white;
-
-    padding: 40px;
-
-    border-radius: 25px;
-
-    text-align: center;
-
-    width: 400px;
-
-    box-shadow: 0 10px 40px rgba(0,0,0,.4);
+.duck.pink {
+    background: #ff5fa2;
 }
 
-.winner-box h1 {
-    color: #ff9c00;
-    font-size: 35px;
-}
-
-.winner-name {
-    font-size: 30px;
-    font-weight: bold;
-    color: #159bd7;
-}
-
-/* EDIT PANEL */
-.edit-panel {
-    display: none;
-
-    position: fixed;
-    inset: 0;
-
-    background: rgba(0,0,0,.6);
-
-    z-index: 90;
-
-    align-items: center;
-    justify-content: center;
-}
-
-.edit-box {
-    background: white;
-
-    width: 420px;
-    max-width: 90%;
-
-    padding: 25px;
-
-    border-radius: 20px;
-}
-
-.edit-box h2 {
-    margin-top: 0;
-}
-
-textarea {
-    width: 100%;
-    height: 250px;
-
-    padding: 12px;
-
-    font-size: 17px;
-
-    border: 2px solid #ddd;
-    border-radius: 12px;
-
-    resize: vertical;
-}
-
-.save-btn {
-    margin-top: 15px;
-
-    background: #14bd82;
-    color: white;
-
-    padding: 14px 25px;
-
-    border-radius: 12px;
-
-    font-size: 17px;
-}
-
-.close-btn {
-    margin-top: 15px;
-    margin-left: 8px;
-
-    background: #ddd;
-
-    padding: 14px 25px;
-
-    border-radius: 12px;
-}
-
-/* MOBILE */
-@media(max-width:700px) {
-
-    header {
-        padding: 0 12px;
-    }
-
-    .logo {
-        font-size: 17px;
-    }
-
-    .edit-btn {
-        padding: 10px;
-        font-size: 13px;
-    }
-
-    .timer {
-        width: 90%;
-        font-size: 34px;
-    }
-
-    .duck {
-        font-size: 32px;
-    }
-
-    .name {
-        left: 105px;
-        font-size: 12px;
-    }
-
-    .start {
-        margin-left: 15px;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<header>
-
-    <div class="logo">
-        🦆 Duck Race <span>Name Picker</span>
-    </div>
-
-    <div class="header-buttons">
-
-        <button class="edit-btn" onclick="openEditor()">
-            ☷ Edit List (<span id="count">8</span>)
-        </button>
-
-        <button class="reset-btn" onclick="resetRace()">
-            ↻
-        </button>
-
-    </div>
-
-</header>
-
-
-<div class="game">
-
-    <div class="sun"></div>
-
-    <div class="timer" id="timer">
-        00:00:00
-    </div>
-
-    <div class="race-track" id="raceTrack">
-
-        <div class="finish"></div>
-
-        <div class="finish-label">
-            FINISH
-        </div>
-
-    </div>
-
-</div>
-
-
-<div class="controls">
-
-    <div class="keypad">
-
-        <button class="green">5</button>
-        <button class="green">6</button>
-        <button class="green">7</button>
-        <button class="green">8</button>
-        <button class="green">9</button>
-
-        <button class="green">Set</button>
-
-        <button>0</button>
-        <button>1</button>
-        <button>2</button>
-        <button>3</button>
-        <button>4</button>
-
-        <button>Clear</button>
-
-    </div>
-
-    <button class="start" onclick="startRace()">
-        🏁 START RACE!
-    </button>
-
-</div>
-
-
-<!-- WINNER -->
-
-<div class="winner" id="winner">
-
-    <div class="winner-box">
-
-        <h1>🏆 WINNER!</h1>
-
-        <div class="winner-name" id="winnerName"></div>
-
-        <br>
-
-        <button class="start" onclick="closeWinner()">
-            Chạy lại
-        </button>
-
-    </div>
-
-</div>
-
-
-<!-- EDIT -->
-
-<div class="edit-panel" id="editor">
-
-    <div class="edit-box">
-
-        <h2>🦆 Danh sách người chơi</h2>
-
-        <p>
-            Mỗi dòng là một người.
-        </p>
-
-        <textarea id="nameInput"></textarea>
-
-        <button class="save-btn" onclick="saveNames()">
-            Lưu danh sách
-        </button>
-
-        <button class="close-btn" onclick="closeEditor()">
-            Hủy
-        </button>
-
-    </div>
-
-</div>
-
-
-<script>
-
-let names = [
-    "nghĩa",
-    "đan mạch",
-    "Đại Đăng Đen",
-    "Tốc Độ Sấm",
-    "Hoàng Tử Vịt",
-    ",,,",
-    "...",
-    "///"
-];
-
-let ducks = [];
-let racing = false;
-let startTime = 0;
-let timerInterval;
-
-
-/* TẠO ĐƯỜNG ĐUA */
-
-function createRace() {
-
-    const track = document.getElementById("raceTrack");
-
-    track.innerHTML = `
-        <div class="finish"></div>
-        <div class="finish-label">FINISH</div>
-    `;
-
-    ducks = [];
-
-    names.forEach((name, index) => {
-
-        const lane = document.createElement("div");
-
-        lane.className = "lane";
-
-        const number = document.createElement("div");
-
-        number.className = "number";
-
-        number.textContent = index + 1;
-
-        const duck = document.createElement("div");
-
-        duck.className = "duck";
-
-        duck.textContent = "🦆";
-
-        duck.style.left = "65px";
-
-        const nameBox = document.createElement("div");
-
-        nameBox.className = "name";
-
-        nameBox.textContent = name;
-
-        lane.appendChild(number);
-        lane.appendChild(duck);
-        lane.appendChild(nameBox);
-
-        track.appendChild(lane);
-
-        ducks.push({
-            element: duck,
-            name: name,
-            position: 65,
-            speed: Math.random() * 3 + 2
-        });
-
-    });
-
-    document.getElementById("count").textContent = names.length;
+.duck.cyan {
+    background: #20d9c5;
 }
 
 
-/* BẮT ĐẦU ĐUA */
+/* =========================
+   PHỤ KIỆN
+   ========================= */
 
-function startRace() {
-
-    if (racing) return;
-
-    if (names.length === 0) {
-
-        alert("Chưa có tên!");
-
-        return;
-    }
-
-    racing = true;
-
-    startTime = Date.now();
-
-    updateTimer();
-
-    raceLoop();
+/* Nơ */
+.duck.bowtie {
+    border-bottom: 7px solid #e91e63;
 }
 
-
-/* ANIMATION */
-
-function raceLoop() {
-
-    if (!racing) return;
-
-    let finishPosition =
-        window.innerWidth * 0.86;
-
-    let winner = null;
-
-    ducks.forEach(duck => {
-
-        /*
-        Tốc độ thay đổi nhẹ
-        */
-
-        duck.speed +=
-            (Math.random() - 0.5) * 0.7;
-
-        duck.speed =
-            Math.max(1, Math.min(7, duck.speed));
-
-        duck.position += duck.speed;
-
-        duck.element.style.left =
-            duck.position + "px";
-
-        if (duck.position >= finishPosition) {
-
-            winner = duck;
-
-        }
-
-    });
-
-
-    if (winner) {
-
-        racing = false;
-
-        clearInterval(timerInterval);
-
-        showWinner(winner.name);
-
-        return;
-    }
-
-    requestAnimationFrame(raceLoop);
+/* Mũ */
+.duck.hat {
+    border-top: 8px solid #333;
 }
 
-
-/* TIMER */
-
-function updateTimer() {
-
-    clearInterval(timerInterval);
-
-    timerInterval = setInterval(() => {
-
-        if (!racing) return;
-
-        let elapsed =
-            Date.now() - startTime;
-
-        let seconds =
-            Math.floor(elapsed / 1000);
-
-        let minutes =
-            Math.floor(seconds / 60);
-
-        let hours =
-            Math.floor(minutes / 60);
-
-        seconds %= 60;
-
-        minutes %= 60;
-
-        document.getElementById("timer")
-            .textContent =
-            String(hours).padStart(2,"0") +
-            ":" +
-            String(minutes).padStart(2,"0") +
-            ":" +
-            String(seconds).padStart(2,"0");
-
-    }, 1000);
+/* Mũ cao bồi */
+.duck.cowboy {
+    border-top: 6px solid #8b4513;
 }
 
-
-/* WINNER */
-
-function showWinner(name) {
-
-    document.getElementById("winnerName")
-        .textContent = name;
-
-    document.getElementById("winner")
-        .style.display = "flex";
+/* Vương miện */
+.duck.crown {
+    border-top: 7px solid #ffd700;
 }
 
-
-function closeWinner() {
-
-    document.getElementById("winner")
-        .style.display = "none";
-
-    resetRace();
+/* Kính */
+.duck.glasses {
+    box-shadow:
+        inset -5px -5px 0 rgba(0,0,0,.12),
+        2px 3px 4px rgba(0,0,0,.25),
+        0 -8px 0 -2px #222;
 }
 
-
-/* RESET */
-
-function resetRace() {
-
-    racing = false;
-
-    clearInterval(timerInterval);
-
-    document.getElementById("timer")
-        .textContent = "00:00:00";
-
-    createRace();
+/* Khăn */
+.duck.scarf {
+    border-bottom: 5px solid #e63946;
 }
 
-
-/* EDIT */
-
-function openEditor() {
-
-    document.getElementById("nameInput")
-        .value = names.join("\n");
-
-    document.getElementById("editor")
-        .style.display = "flex";
+/* Áo giáp */
+.duck.knight {
+    border: 3px solid #777;
 }
 
-
-function closeEditor() {
-
-    document.getElementById("editor")
-        .style.display = "none";
+/* Siêu nhân */
+.duck.hero {
+    border-bottom: 7px solid #2563eb;
 }
-
-
-function saveNames() {
-
-    const text =
-        document.getElementById("nameInput").value;
-
-    names = text
-        .split("\n")
-        .map(x => x.trim())
-        .filter(x => x !== "");
-
-    closeEditor();
-
-    resetRace();
-}
-
-
-/* KHỞI TẠO */
-
-createRace();
-
-</script>
-
-</body>
-</html>

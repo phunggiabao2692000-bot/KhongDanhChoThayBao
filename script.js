@@ -1,858 +1,731 @@
-/* =========================
-   DANH SÁCH
-========================= */
-
-let names = [
-    "Nghĩa",
-    "Đan Mạch",
-    "Đại Đăng Đen",
-    "Tốc Độ Sấm",
-    "Hoàng Tử Vịt",
-    "Vịt Lửa",
-    "Vịt Tím",
-    "Vịt Xanh"
-];
-
-
-/* =========================
-   THIẾT KẾ 8 CON VỊT
-========================= */
-
-const ducksDesign = [
-
-    {
-        body: "#ffd52f",
-        head: "#ffe76a",
-        accessory: "crown"
-    },
-
-    {
-        body: "#e84444",
-        head: "#ff7777",
-        accessory: "helmet"
-    },
-
-    {
-        body: "#2699ff",
-        head: "#70c9ff",
-        accessory: "glasses"
-    },
-
-    {
-        body: "#28c75b",
-        head: "#70e889",
-        accessory: "scarf"
-    },
-
-    {
-        body: "#a74cff",
-        head: "#ce98ff",
-        accessory: "hat"
-    },
-
-    {
-        body: "#ff861f",
-        head: "#ffb45c",
-        accessory: "cowboy"
-    },
-
-    {
-        body: "#ff4f9b",
-        head: "#ff9bc7",
-        accessory: "bow"
-    },
-
-    {
-        body: "#16c6b1",
-        head: "#70e5dc",
-        accessory: "armor"
-    }
-
-];
-
-
-/* =========================
-   PHỤ KIỆN
-========================= */
-
-function getAccessory(type) {
-
-    if (type === "crown") {
-
-        return `
-            <path
-                d="M35 12 L37 2 L44 9 L50 2 L55 13 Z"
-                fill="#FFD700"
-                stroke="#222"
-                stroke-width="2"
-            />
-        `;
-    }
-
-
-    if (type === "helmet") {
-
-        return `
-            <path
-                d="M31 17
-                   A14 14 0 0 1 58 17
-                   L55 20
-                   L32 20 Z"
-                fill="#596b8a"
-                stroke="#222"
-                stroke-width="2"
-            />
-
-            <path
-                d="M46 4 V15"
-                stroke="#ffd700"
-                stroke-width="3"
-            />
-        `;
-    }
-
-
-    if (type === "glasses") {
-
-        return `
-            <circle
-                cx="43"
-                cy="15"
-                r="6"
-                fill="#8be9ff"
-                stroke="#222"
-                stroke-width="2.5"
-            />
-
-            <circle
-                cx="55"
-                cy="15"
-                r="5"
-                fill="#8be9ff"
-                stroke="#222"
-                stroke-width="2.5"
-            />
-
-            <path
-                d="M49 15 H50"
-                stroke="#222"
-                stroke-width="2"
-            />
-        `;
-    }
-
-
-    if (type === "scarf") {
-
-        return `
-            <path
-                d="M30 26
-                   Q44 33 57 25
-                   L55 35
-                   L45 37
-                   L43 32
-                   L34 34 Z"
-                fill="#e63946"
-                stroke="#222"
-                stroke-width="2"
-            />
-        `;
-    }
-
-
-    if (type === "hat") {
-
-        return `
-            <path
-                d="M34 12
-                   L38 1
-                   H51
-                   L56 12 Z"
-                fill="#442d70"
-                stroke="#222"
-                stroke-width="2"
-            />
-
-            <path
-                d="M30 13 H60"
-                stroke="#222"
-                stroke-width="4"
-            />
-        `;
-    }
-
-
-    if (type === "cowboy") {
-
-        return `
-            <ellipse
-                cx="45"
-                cy="8"
-                rx="20"
-                ry="5"
-                fill="#a15b2a"
-                stroke="#222"
-                stroke-width="2"
-            />
-
-            <path
-                d="M37 9
-                   L40 1
-                   H50
-                   L54 10 Z"
-                fill="#a15b2a"
-                stroke="#222"
-                stroke-width="2"
-            />
-        `;
-    }
-
-
-    if (type === "bow") {
-
-        return `
-            <path
-                d="M35 8
-                   L25 2
-                   L26 14
-                   L35 10
-                   L44 14
-                   L45 2 Z"
-                fill="#ff2e83"
-                stroke="#222"
-                stroke-width="2"
-            />
-
-            <circle
-                cx="35"
-                cy="8"
-                r="3"
-                fill="#ffd700"
-            />
-        `;
-    }
-
-
-    if (type === "armor") {
-
-        return `
-            <path
-                d="M31 23
-                   H57
-                   V34
-                   Q44 40 31 34 Z"
-                fill="#aab4c2"
-                stroke="#222"
-                stroke-width="2"
-            />
-
-            <path
-                d="M44 24 V35"
-                stroke="#586575"
-                stroke-width="3"
-            />
-        `;
-    }
-
-    return "";
+* {
+    box-sizing: border-box;
 }
 
-
-/* =========================
-   TẠO HÌNH CON VỊT
-========================= */
-
-function createDuckSVG(design) {
-
-    return `
-
-        <svg
-            viewBox="0 0 70 55"
-            width="70"
-            height="55"
-        >
-
-            <!-- THÂN -->
-
-            <ellipse
-                cx="29"
-                cy="32"
-                rx="22"
-                ry="12"
-                fill="${design.body}"
-                stroke="#222"
-                stroke-width="3"
-            />
-
-
-            <!-- CÁNH -->
-
-            <ellipse
-                class="wing"
-                cx="28"
-                cy="31"
-                rx="11"
-                ry="7"
-                fill="${design.head}"
-                stroke="#222"
-                stroke-width="2"
-            />
-
-
-            <!-- ĐẦU -->
-
-            <circle
-                cx="43"
-                cy="18"
-                r="13"
-                fill="${design.head}"
-                stroke="#222"
-                stroke-width="3"
-            />
-
-
-            <!-- MẮT -->
-
-            <circle
-                cx="49"
-                cy="14"
-                r="4"
-                fill="white"
-            />
-
-            <circle
-                cx="50"
-                cy="14"
-                r="2"
-                fill="#111"
-            />
-
-
-            <!-- MỎ
-                 nằm bên PHẢI
-                 => vịt quay về đích
-            -->
-
-            <path
-                d="M55 17
-                   L69 21
-                   L55 25 Z"
-                fill="#ff8b20"
-                stroke="#222"
-                stroke-width="2"
-            />
-
-
-            <!-- CHÂN -->
-
-            <g
-                class="legs"
-                stroke="#e87518"
-                stroke-width="3"
-                stroke-linecap="round"
-            >
-
-                <path
-                    class="leg"
-                    d="M22 40 L19 48 L27 48"
-                />
-
-                <path
-                    class="leg"
-                    d="M34 40 L32 48 L40 48"
-                />
-
-            </g>
-
-
-            <!-- PHỤ KIỆN -->
-
-            ${getAccessory(design.accessory)}
-
-        </svg>
-
-    `;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #8edcf5;
+    color: #172033;
 }
 
-
 /* =========================
-   BIẾN GAME
+   HEADER
 ========================= */
 
-let ducks = [];
+header {
+    height: 100px;
+    background: white;
 
-let running = false;
+    display: flex;
+    align-items: center;
 
-let animationFrame;
+    padding: 0 35px;
 
-let startTime = 0;
-
-let lastTime = 0;
-
-
-/* =========================
-   TẠO ĐƯỜNG ĐUA
-========================= */
-
-function createRace() {
-
-    cancelAnimationFrame(animationFrame);
-
-    running = false;
-
-    ducks = [];
-
-    const track =
-        document.getElementById("raceTrack");
-
-
-    /* Xóa đường đua cũ */
-
-    track
-        .querySelectorAll(".lane")
-        .forEach(lane => lane.remove());
-
-
-    /* Tạo từng làn */
-
-    names.forEach((name, index) => {
-
-        const lane =
-            document.createElement("div");
-
-        lane.className = "lane";
-
-
-        /* Số */
-
-        const number =
-            document.createElement("div");
-
-        number.className =
-            "lane-number";
-
-        number.textContent =
-            index + 1;
-
-
-        /* Tên */
-
-        const nameBox =
-            document.createElement("div");
-
-        nameBox.className =
-            "lane-name";
-
-        nameBox.textContent =
-            name;
-
-
-        /* Vịt */
-
-        const duck =
-            document.createElement("div");
-
-        duck.className =
-            "duck";
-
-        duck.innerHTML =
-            createDuckSVG(
-                ducksDesign[index %
-                ducksDesign.length]
-            );
-
-
-        lane.appendChild(number);
-
-        lane.appendChild(nameBox);
-
-        lane.appendChild(duck);
-
-        track.appendChild(lane);
-
-
-        /* Thông tin vịt */
-
-        ducks.push({
-
-            element: duck,
-
-            name: name,
-
-            x: 200,
-
-            speed:
-                1.5 +
-                Math.random() * 2.5
-
-        });
-
-    });
-
-
-    updateDuckPositions();
-
-
-    document.getElementById("timer")
-        .textContent = "00:00:00";
-
-
-    document.getElementById("status")
-        .textContent =
-        "Sẵn sàng xuất phát!";
-
-
-    document.getElementById("startButton")
-        .disabled = false;
+    border-bottom: 3px solid #ddd;
 }
 
-
-/* =========================
-   VỊ TRÍ BAN ĐẦU
-========================= */
-
-function updateDuckPositions() {
-
-    ducks.forEach(duck => {
-
-        duck.element.style.left =
-            duck.x + "px";
-
-    });
-
+.logo-duck {
+    font-size: 48px;
+    margin-right: 12px;
 }
 
-
-/* =========================
-   BẮT ĐẦU
-========================= */
-
-function startRace() {
-
-    if (running) return;
-
-    running = true;
-
-    startTime =
-        performance.now();
-
-    lastTime =
-        startTime;
-
-
-    ducks.forEach(duck => {
-
-        duck.element
-            .classList
-            .add("running");
-
-    });
-
-
-    document.getElementById("status")
-        .textContent =
-        "🏃 Cuộc đua đang diễn ra!";
-
-
-    document.getElementById("startButton")
-        .disabled = true;
-
-
-    animationFrame =
-        requestAnimationFrame(
-            raceLoop
-        );
+.small-title {
+    color: #16a7e8;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
 }
 
+h1 {
+    margin: 2px 0 0;
+
+    font-size: 30px;
+    font-weight: 800;
+}
+
+h1 span {
+    color: #f39a0b;
+}
 
 /* =========================
-   VÒNG LẶP
+   TOP
 ========================= */
 
-function raceLoop(now) {
+.top-area {
+    height: 220px;
 
-    if (!running) return;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
+    background:
+        radial-gradient(circle at 8% 35%, #fff7a0 0 35px, transparent 36px),
+        linear-gradient(#8edcf5, #a8e5f8);
+}
 
-    const track =
-        document.getElementById(
-            "raceTrack"
+.timer {
+    background: white;
+
+    border: 5px solid #27aeea;
+    border-radius: 25px;
+
+    width: 430px;
+    height: 95px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    box-shadow: 0 5px 15px rgba(0,0,0,.12);
+}
+
+#timer {
+    font-size: 48px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+/* =========================
+   RACE AREA
+========================= */
+
+.race-area {
+    position: relative;
+
+    min-height: 500px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #159bd1 0%,
+            #159bd1 100%
         );
 
+    border-top: 7px solid #0878a9;
+    border-bottom: 7px solid #0878a9;
 
-    const finishPosition =
-        track.clientWidth * 0.93;
+    overflow: hidden;
+}
 
+#raceTrack {
+    position: relative;
 
-    const delta =
-        Math.min(
-            (now - lastTime) / 16.67,
-            2
+    width: calc(100% - 100px);
+
+    margin-right: 100px;
+}
+
+/* từng đường chạy */
+
+.lane {
+    position: relative;
+
+    height: 62px;
+
+    border-bottom: 1px solid rgba(255,255,255,.20);
+}
+
+/* =========================
+   FINISH
+========================= */
+
+.finish-line {
+    position: absolute;
+
+    right: 70px;
+    top: 0;
+
+    height: 100%;
+
+    width: 14px;
+
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            #ffffff 0px,
+            #ffffff 12px,
+            #ff4d72 12px,
+            #ff4d72 24px
         );
 
+    z-index: 20;
+}
 
-    lastTime = now;
+.finish-line div {
+    position: absolute;
 
+    top: -5px;
+    right: -17px;
 
-    /* Đồng hồ */
+    background: white;
 
-    const elapsed =
-        Math.floor(
-            (now - startTime) / 1000
-        );
+    padding: 7px 9px;
 
+    font-weight: 800;
+    font-size: 13px;
 
-    const hours =
-        Math.floor(
-            elapsed / 3600
-        );
+    white-space: nowrap;
+}
 
+/* =========================
+   DUCK
+========================= */
 
-    const minutes =
-        Math.floor(
-            (elapsed % 3600) / 60
-        );
+.duck-runner {
+    position: absolute;
 
+    left: 10px;
+    top: 8px;
 
-    const seconds =
-        elapsed % 60;
+    width: 120px;
+    height: 48px;
 
+    transition: left .1s linear;
 
-    document.getElementById("timer")
-        .textContent =
+    z-index: 10;
+}
 
-        String(hours).padStart(2, "0")
-        + ":" +
+/* thân */
 
-        String(minutes).padStart(2, "0")
-        + ":" +
+.duck-body {
+    position: absolute;
 
-        String(seconds).padStart(2, "0");
+    left: 24px;
+    top: 15px;
 
+    width: 58px;
+    height: 30px;
 
-    /* Cho vịt chạy */
+    border-radius: 50% 45% 45% 45%;
 
-    for (const duck of ducks) {
+    background: var(--duck-color);
 
-        duck.speed +=
-            (Math.random() - 0.5)
-            * 0.3;
+    border: 3px solid #222;
 
+    box-shadow:
+        inset -7px -4px 0 rgba(0,0,0,.10);
+}
 
-        duck.speed =
-            Math.max(
-                1,
-                Math.min(
-                    5,
-                    duck.speed
-                )
-            );
+/* đầu */
 
+.duck-head {
+    position: absolute;
 
-        duck.x +=
-            duck.speed * delta;
+    left: 64px;
+    top: 1px;
 
+    width: 39px;
+    height: 39px;
 
-        duck.element.style.left =
-            duck.x + "px";
+    border-radius: 50%;
 
+    background: var(--duck-color);
 
-        /* Có vịt về đích */
+    border: 3px solid #222;
 
-        if (
-            duck.x + 65
-            >= finishPosition
-        ) {
+    z-index: 3;
+}
 
-            finishRace(duck);
+/* mỏ */
 
-            return;
-        }
+.duck-beak {
+    position: absolute;
+
+    left: 97px;
+    top: 16px;
+
+    width: 24px;
+    height: 13px;
+
+    background: #ff9f1c;
+
+    border: 3px solid #222;
+
+    border-radius: 50% 80% 80% 50%;
+
+    z-index: 4;
+}
+
+/* mắt */
+
+.duck-eye {
+    position: absolute;
+
+    left: 87px;
+    top: 10px;
+
+    width: 8px;
+    height: 8px;
+
+    background: white;
+
+    border: 2px solid #222;
+
+    border-radius: 50%;
+
+    z-index: 5;
+}
+
+.duck-eye::after {
+    content: "";
+
+    position: absolute;
+
+    width: 3px;
+    height: 3px;
+
+    background: black;
+
+    border-radius: 50%;
+
+    top: 1px;
+    left: 1px;
+}
+
+/* cánh */
+
+.duck-wing {
+    position: absolute;
+
+    left: 43px;
+    top: 17px;
+
+    width: 32px;
+    height: 17px;
+
+    border-radius: 60% 30% 60% 30%;
+
+    background: var(--duck-dark);
+
+    border: 3px solid #222;
+
+    transform-origin: left center;
+
+    z-index: 4;
+}
+
+/* chân */
+
+.leg {
+    position: absolute;
+
+    top: 39px;
+
+    width: 8px;
+    height: 14px;
+
+    background: #ff9f1c;
+
+    border: 2px solid #222;
+
+    border-radius: 5px;
+
+    z-index: 2;
+}
+
+.leg.left {
+    left: 46px;
+}
+
+.leg.right {
+    left: 67px;
+}
+
+/* =========================
+   WALK ANIMATION
+========================= */
+
+.duck-runner.running {
+    animation: duck-bob .25s infinite alternate ease-in-out;
+}
+
+.duck-runner.running .duck-wing {
+    animation: wing-flap .18s infinite alternate ease-in-out;
+}
+
+.duck-runner.running .leg.left {
+    animation: leg-left .18s infinite alternate;
+}
+
+.duck-runner.running .leg.right {
+    animation: leg-right .18s infinite alternate;
+}
+
+@keyframes duck-bob {
+
+    from {
+        transform: translateY(0);
     }
 
-
-    animationFrame =
-        requestAnimationFrame(
-            raceLoop
-        );
+    to {
+        transform: translateY(-4px);
+    }
 }
 
+@keyframes wing-flap {
+
+    from {
+        transform: rotate(15deg);
+    }
+
+    to {
+        transform: rotate(-25deg);
+    }
+}
+
+@keyframes leg-left {
+
+    from {
+        transform: rotate(25deg);
+    }
+
+    to {
+        transform: rotate(-25deg);
+    }
+}
+
+@keyframes leg-right {
+
+    from {
+        transform: rotate(-25deg);
+    }
+
+    to {
+        transform: rotate(25deg);
+    }
+}
 
 /* =========================
-   KẾT THÚC
+   ACCESSORIES
 ========================= */
 
-function finishRace(winner) {
+.accessory {
+    position: absolute;
 
-    running = false;
+    z-index: 8;
 
-    cancelAnimationFrame(
-        animationFrame
+    pointer-events: none;
+}
+
+/* mũ */
+
+.hat {
+    left: 61px;
+    top: -9px;
+
+    width: 43px;
+    height: 14px;
+
+    background: #222;
+
+    border-radius: 50% 50% 10% 10%;
+}
+
+.hat::after {
+    content: "";
+
+    position: absolute;
+
+    left: -8px;
+    top: 10px;
+
+    width: 59px;
+    height: 7px;
+
+    background: #222;
+
+    border-radius: 50%;
+}
+
+/* vương miện */
+
+.crown {
+    left: 61px;
+    top: -14px;
+
+    width: 40px;
+    height: 22px;
+
+    background: #ffd43b;
+
+    border: 2px solid #9a7100;
+
+    clip-path: polygon(
+        0 100%,
+        10% 0,
+        40% 65%,
+        55% 0,
+        75% 65%,
+        100% 0,
+        92% 100%
     );
-
-
-    ducks.forEach(duck => {
-
-        duck.element
-            .classList
-            .remove("running");
-
-    });
-
-
-    document.getElementById("status")
-        .textContent =
-        "🏆 Cuộc đua kết thúc!";
-
-
-    document.getElementById("winnerName")
-        .textContent =
-        winner.name;
-
-
-    document.getElementById(
-        "winnerPopup"
-    ).style.display = "flex";
 }
 
+/* kính */
+
+.glasses {
+    left: 82px;
+    top: 10px;
+
+    width: 30px;
+    height: 12px;
+
+    border: 3px solid #222;
+
+    border-radius: 10px;
+}
+
+/* nơ */
+
+.bow {
+    left: 67px;
+    top: 30px;
+
+    width: 15px;
+    height: 12px;
+
+    background: #ff4081;
+
+    border-radius: 50%;
+
+    transform: rotate(45deg);
+}
 
 /* =========================
-   RESET
+   NAME
 ========================= */
 
-function resetRace() {
+.duck-name {
+    position: absolute;
 
-    createRace();
+    left: 125px;
+    top: 8px;
 
+    background: white;
+
+    padding: 8px 14px;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+
+    white-space: nowrap;
+
+    box-shadow: 0 2px 5px rgba(0,0,0,.12);
 }
 
+/* số thứ tự */
+
+.rank {
+    position: absolute;
+
+    left: -48px;
+    top: 5px;
+
+    width: 34px;
+    height: 34px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: white;
+
+    border-radius: 10px;
+
+    font-weight: bold;
+}
 
 /* =========================
-   EDIT LIST
+   CONTROLS
 ========================= */
 
-function openEditor() {
+.controls {
+    min-height: 135px;
 
-    if (running) return;
+    background: white;
 
+    display: flex;
 
-    document.getElementById(
-        "nameInput"
-    ).value =
-        names.join("\n");
+    justify-content: center;
+    align-items: center;
 
+    gap: 10px;
 
-    document.getElementById(
-        "editor"
-    ).style.display =
-        "flex";
+    position: relative;
 }
 
+button {
+    border: none;
 
-function closeEditor() {
+    cursor: pointer;
 
-    document.getElementById(
-        "editor"
-    ).style.display =
-        "none";
+    font-weight: bold;
+
+    transition: .15s;
 }
 
+button:hover {
+    transform: translateY(-2px);
+}
 
-function saveNames() {
+.green-btn {
+    background: #13b982;
 
-    names =
-        document.getElementById(
-            "nameInput"
-        ).value
-        .split("\n")
-        .map(name => name.trim())
-        .filter(name => name !== "");
+    color: white;
 
+    padding: 18px 28px;
 
-    if (names.length === 0) {
+    border-radius: 15px;
 
-        names = [
-            "Nghĩa",
-            "Đan Mạch"
-        ];
+    font-size: 21px;
+}
+
+.start-btn {
+    background: #ff9417;
+
+    color: white;
+
+    padding: 19px 32px;
+
+    border-radius: 15px;
+
+    font-size: 24px;
+}
+
+.reset-btn {
+    background: #e9eef2;
+
+    color: #333;
+
+    width: 58px;
+    height: 58px;
+
+    border-radius: 15px;
+
+    font-size: 30px;
+}
+
+/* =========================
+   MODAL
+========================= */
+
+.modal {
+    position: fixed;
+
+    inset: 0;
+
+    background: rgba(0,0,0,.55);
+
+    display: flex;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 100;
+}
+
+.modal.hidden {
+    display: none;
+}
+
+.modal-box {
+    background: white;
+
+    width: min(600px, 90%);
+
+    padding: 30px;
+
+    border-radius: 20px;
+
+    box-shadow: 0 15px 40px rgba(0,0,0,.3);
+}
+
+.modal-box h2 {
+    margin-top: 0;
+}
+
+textarea {
+    width: 100%;
+
+    height: 250px;
+
+    resize: vertical;
+
+    padding: 15px;
+
+    font-size: 17px;
+
+    border: 2px solid #ddd;
+
+    border-radius: 10px;
+
+    font-family: Arial;
+}
+
+.modal-buttons {
+    margin-top: 15px;
+
+    display: flex;
+
+    gap: 10px;
+}
+
+.gray-btn {
+    background: #777;
+
+    color: white;
+
+    padding: 15px 25px;
+
+    border-radius: 10px;
+
+    font-size: 17px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 700px) {
+
+    header {
+        height: 75px;
+        padding: 0 15px;
     }
 
+    h1 {
+        font-size: 20px;
+    }
 
-    closeEditor();
+    .logo-duck {
+        font-size: 32px;
+    }
 
-    createRace();
+    .top-area {
+        height: 170px;
+    }
+
+    .timer {
+        width: 310px;
+        height: 75px;
+    }
+
+    #timer {
+        font-size: 34px;
+    }
+
+    .race-area {
+        min-height: 500px;
+    }
+
+    .controls {
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+
+    .duck-name {
+        left: 115px;
+    }
 }
-
-
-/* =========================
-   ĐÓNG KẾT QUẢ
-========================= */
-
-function closeWinner() {
-
-    document.getElementById(
-        "winnerPopup"
-    ).style.display =
-        "none";
-
-    resetRace();
-}
-
-
-/* =========================
-   NÚT
-========================= */
-
-document.getElementById(
-    "startButton"
-).addEventListener(
-    "click",
-    startRace
-);
-
-
-document.getElementById(
-    "resetButton"
-).addEventListener(
-    "click",
-    resetRace
-);
-
-
-document.getElementById(
-    "editButton"
-).addEventListener(
-    "click",
-    openEditor
-);
-
-
-document.getElementById(
-    "saveNames"
-).addEventListener(
-    "click",
-    saveNames
-);
-
-
-document.getElementById(
-    "closeEditor"
-).addEventListener(
-    "click",
-    closeEditor
-);
-
-
-document.getElementById(
-    "closeWinner"
-).addEventListener(
-    "click",
-    closeWinner
-);
-
-
-/* =========================
-   CHẠY GAME
-========================= */
-
-createRace();

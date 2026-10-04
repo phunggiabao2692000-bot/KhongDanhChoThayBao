@@ -1,731 +1,560 @@
-* {
-    box-sizing: border-box;
-}
-
-body {
-    margin: 0;
-    font-family: Arial, Helvetica, sans-serif;
-    background: #8edcf5;
-    color: #172033;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-header {
-    height: 100px;
-    background: white;
-
-    display: flex;
-    align-items: center;
-
-    padding: 0 35px;
-
-    border-bottom: 3px solid #ddd;
-}
-
-.logo-duck {
-    font-size: 48px;
-    margin-right: 12px;
-}
-
-.small-title {
-    color: #16a7e8;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: 2px;
-}
-
-h1 {
-    margin: 2px 0 0;
-
-    font-size: 30px;
-    font-weight: 800;
-}
-
-h1 span {
-    color: #f39a0b;
-}
-
-/* =========================
-   TOP
-========================= */
-
-.top-area {
-    height: 220px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background:
-        radial-gradient(circle at 8% 35%, #fff7a0 0 35px, transparent 36px),
-        linear-gradient(#8edcf5, #a8e5f8);
-}
-
-.timer {
-    background: white;
-
-    border: 5px solid #27aeea;
-    border-radius: 25px;
-
-    width: 430px;
-    height: 95px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    box-shadow: 0 5px 15px rgba(0,0,0,.12);
-}
-
-#timer {
-    font-size: 48px;
-    font-weight: 800;
-    letter-spacing: 2px;
-}
-
-/* =========================
-   RACE AREA
-========================= */
-
-.race-area {
-    position: relative;
-
-    min-height: 500px;
-
-    background:
-        linear-gradient(
-            to bottom,
-            #159bd1 0%,
-            #159bd1 100%
-        );
-
-    border-top: 7px solid #0878a9;
-    border-bottom: 7px solid #0878a9;
-
-    overflow: hidden;
-}
-
-#raceTrack {
-    position: relative;
-
-    width: calc(100% - 100px);
-
-    margin-right: 100px;
-}
-
-/* từng đường chạy */
-
-.lane {
-    position: relative;
-
-    height: 62px;
-
-    border-bottom: 1px solid rgba(255,255,255,.20);
-}
-
-/* =========================
-   FINISH
-========================= */
-
-.finish-line {
-    position: absolute;
-
-    right: 70px;
-    top: 0;
-
-    height: 100%;
-
-    width: 14px;
-
-    background:
-        repeating-linear-gradient(
-            to bottom,
-            #ffffff 0px,
-            #ffffff 12px,
-            #ff4d72 12px,
-            #ff4d72 24px
-        );
-
-    z-index: 20;
-}
-
-.finish-line div {
-    position: absolute;
-
-    top: -5px;
-    right: -17px;
-
-    background: white;
-
-    padding: 7px 9px;
-
-    font-weight: 800;
-    font-size: 13px;
-
-    white-space: nowrap;
-}
-
-/* =========================
-   DUCK
-========================= */
-
-.duck-runner {
-    position: absolute;
-
-    left: 10px;
-    top: 8px;
-
-    width: 120px;
-    height: 48px;
-
-    transition: left .1s linear;
-
-    z-index: 10;
-}
-
-/* thân */
-
-.duck-body {
-    position: absolute;
-
-    left: 24px;
-    top: 15px;
-
-    width: 58px;
-    height: 30px;
-
-    border-radius: 50% 45% 45% 45%;
-
-    background: var(--duck-color);
-
-    border: 3px solid #222;
-
-    box-shadow:
-        inset -7px -4px 0 rgba(0,0,0,.10);
-}
-
-/* đầu */
-
-.duck-head {
-    position: absolute;
-
-    left: 64px;
-    top: 1px;
-
-    width: 39px;
-    height: 39px;
-
-    border-radius: 50%;
-
-    background: var(--duck-color);
-
-    border: 3px solid #222;
-
-    z-index: 3;
-}
-
-/* mỏ */
-
-.duck-beak {
-    position: absolute;
-
-    left: 97px;
-    top: 16px;
-
-    width: 24px;
-    height: 13px;
-
-    background: #ff9f1c;
-
-    border: 3px solid #222;
-
-    border-radius: 50% 80% 80% 50%;
-
-    z-index: 4;
-}
-
-/* mắt */
-
-.duck-eye {
-    position: absolute;
-
-    left: 87px;
-    top: 10px;
-
-    width: 8px;
-    height: 8px;
-
-    background: white;
-
-    border: 2px solid #222;
-
-    border-radius: 50%;
-
-    z-index: 5;
-}
-
-.duck-eye::after {
-    content: "";
-
-    position: absolute;
-
-    width: 3px;
-    height: 3px;
-
-    background: black;
-
-    border-radius: 50%;
-
-    top: 1px;
-    left: 1px;
-}
-
-/* cánh */
-
-.duck-wing {
-    position: absolute;
-
-    left: 43px;
-    top: 17px;
-
-    width: 32px;
-    height: 17px;
-
-    border-radius: 60% 30% 60% 30%;
-
-    background: var(--duck-dark);
-
-    border: 3px solid #222;
-
-    transform-origin: left center;
-
-    z-index: 4;
-}
-
-/* chân */
-
-.leg {
-    position: absolute;
-
-    top: 39px;
-
-    width: 8px;
-    height: 14px;
-
-    background: #ff9f1c;
-
-    border: 2px solid #222;
-
-    border-radius: 5px;
-
-    z-index: 2;
-}
-
-.leg.left {
-    left: 46px;
-}
-
-.leg.right {
-    left: 67px;
-}
-
-/* =========================
-   WALK ANIMATION
-========================= */
-
-.duck-runner.running {
-    animation: duck-bob .25s infinite alternate ease-in-out;
-}
-
-.duck-runner.running .duck-wing {
-    animation: wing-flap .18s infinite alternate ease-in-out;
-}
-
-.duck-runner.running .leg.left {
-    animation: leg-left .18s infinite alternate;
-}
-
-.duck-runner.running .leg.right {
-    animation: leg-right .18s infinite alternate;
-}
-
-@keyframes duck-bob {
-
-    from {
-        transform: translateY(0);
+/* =========================================
+   DUCK RACE
+========================================= */
+
+const raceTrack = document.getElementById("raceTrack");
+const startBtn = document.getElementById("startBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+const editBtn = document.getElementById("editBtn");
+const saveBtn = document.getElementById("saveBtn");
+const closeBtn = document.getElementById("closeBtn");
+
+const editPanel = document.getElementById("editPanel");
+const nameInput = document.getElementById("nameInput");
+
+const timerDisplay = document.getElementById("timer");
+
+
+/* =========================================
+   DANH SÁCH VỊT
+========================================= */
+
+let duckNames = [
+    "Nghĩa",
+    "Đan Mạch",
+    "Đại Bàng Đen",
+    "Tốc Độ Sấm",
+    "Hoàng Tử Vịt",
+    "Siêu Vịt",
+    "Vịt Xanh",
+    "Vịt Lửa"
+];
+
+
+/* =========================================
+   MÀU VỊT
+========================================= */
+
+const duckColors = [
+
+    {
+        color: "#f4d35e",
+        dark: "#c79e20"
+    },
+
+    {
+        color: "#ef5350",
+        dark: "#b72c2c"
+    },
+
+    {
+        color: "#42a5f5",
+        dark: "#1976b9"
+    },
+
+    {
+        color: "#66bb6a",
+        dark: "#358b3c"
+    },
+
+    {
+        color: "#ab68ff",
+        dark: "#7438b8"
+    },
+
+    {
+        color: "#ff9f43",
+        dark: "#c76b16"
+    },
+
+    {
+        color: "#26c6da",
+        dark: "#128b99"
+    },
+
+    {
+        color: "#ec407a",
+        dark: "#a7194e"
     }
+];
 
-    to {
-        transform: translateY(-4px);
-    }
-}
 
-@keyframes wing-flap {
+/* =========================================
+   PHỤ KIỆN
+========================================= */
 
-    from {
-        transform: rotate(15deg);
-    }
+const accessories = [
 
-    to {
-        transform: rotate(-25deg);
-    }
-}
+    "hat",
+    "crown",
+    "glasses",
+    "bow",
+    "",
+    "hat",
+    "crown",
+    "glasses"
+];
 
-@keyframes leg-left {
 
-    from {
-        transform: rotate(25deg);
-    }
+/* =========================================
+   BIẾN GAME
+========================================= */
 
-    to {
-        transform: rotate(-25deg);
-    }
-}
+let ducks = [];
 
-@keyframes leg-right {
+let racing = false;
 
-    from {
-        transform: rotate(-25deg);
-    }
+let animationFrame;
 
-    to {
-        transform: rotate(25deg);
-    }
-}
+let startTime = 0;
 
-/* =========================
-   ACCESSORIES
-========================= */
 
-.accessory {
-    position: absolute;
+/* =========================================
+   TẠO MỘT CON VỊT
+========================================= */
 
-    z-index: 8;
+function createDuck(name, index) {
 
-    pointer-events: none;
-}
+    const lane = document.createElement("div");
 
-/* mũ */
+    lane.className = "lane";
 
-.hat {
-    left: 61px;
-    top: -9px;
 
-    width: 43px;
-    height: 14px;
+    /* Con vịt */
 
-    background: #222;
+    const duck = document.createElement("div");
 
-    border-radius: 50% 50% 10% 10%;
-}
+    duck.className = "duck-runner";
 
-.hat::after {
-    content: "";
+    duck.dataset.index = index;
 
-    position: absolute;
 
-    left: -8px;
-    top: 10px;
+    /* Màu */
 
-    width: 59px;
-    height: 7px;
+    const color =
+        duckColors[index % duckColors.length];
 
-    background: #222;
 
-    border-radius: 50%;
-}
-
-/* vương miện */
-
-.crown {
-    left: 61px;
-    top: -14px;
-
-    width: 40px;
-    height: 22px;
-
-    background: #ffd43b;
-
-    border: 2px solid #9a7100;
-
-    clip-path: polygon(
-        0 100%,
-        10% 0,
-        40% 65%,
-        55% 0,
-        75% 65%,
-        100% 0,
-        92% 100%
+    duck.style.setProperty(
+        "--duck-color",
+        color.color
     );
-}
 
-/* kính */
+    duck.style.setProperty(
+        "--duck-dark",
+        color.dark
+    );
 
-.glasses {
-    left: 82px;
-    top: 10px;
 
-    width: 30px;
-    height: 12px;
+    /* Thân */
 
-    border: 3px solid #222;
+    duck.innerHTML = `
 
-    border-radius: 10px;
-}
+        <div class="duck-body"></div>
 
-/* nơ */
+        <div class="duck-head"></div>
 
-.bow {
-    left: 67px;
-    top: 30px;
+        <div class="duck-beak"></div>
 
-    width: 15px;
-    height: 12px;
+        <div class="duck-eye"></div>
 
-    background: #ff4081;
+        <div class="duck-wing"></div>
 
-    border-radius: 50%;
+        <div class="leg left"></div>
 
-    transform: rotate(45deg);
-}
+        <div class="leg right"></div>
 
-/* =========================
-   NAME
-========================= */
+    `;
 
-.duck-name {
-    position: absolute;
 
-    left: 125px;
-    top: 8px;
+    /* Phụ kiện */
 
-    background: white;
+    const accessory =
+        accessories[index % accessories.length];
 
-    padding: 8px 14px;
 
-    border-radius: 10px;
+    if (accessory !== "") {
 
-    font-weight: bold;
+        const item =
+            document.createElement("div");
 
-    white-space: nowrap;
+        item.className =
+            "accessory " + accessory;
 
-    box-shadow: 0 2px 5px rgba(0,0,0,.12);
-}
-
-/* số thứ tự */
-
-.rank {
-    position: absolute;
-
-    left: -48px;
-    top: 5px;
-
-    width: 34px;
-    height: 34px;
-
-    display: flex;
-    justify-content: center;
-    align-items: center;
-
-    background: white;
-
-    border-radius: 10px;
-
-    font-weight: bold;
-}
-
-/* =========================
-   CONTROLS
-========================= */
-
-.controls {
-    min-height: 135px;
-
-    background: white;
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    gap: 10px;
-
-    position: relative;
-}
-
-button {
-    border: none;
-
-    cursor: pointer;
-
-    font-weight: bold;
-
-    transition: .15s;
-}
-
-button:hover {
-    transform: translateY(-2px);
-}
-
-.green-btn {
-    background: #13b982;
-
-    color: white;
-
-    padding: 18px 28px;
-
-    border-radius: 15px;
-
-    font-size: 21px;
-}
-
-.start-btn {
-    background: #ff9417;
-
-    color: white;
-
-    padding: 19px 32px;
-
-    border-radius: 15px;
-
-    font-size: 24px;
-}
-
-.reset-btn {
-    background: #e9eef2;
-
-    color: #333;
-
-    width: 58px;
-    height: 58px;
-
-    border-radius: 15px;
-
-    font-size: 30px;
-}
-
-/* =========================
-   MODAL
-========================= */
-
-.modal {
-    position: fixed;
-
-    inset: 0;
-
-    background: rgba(0,0,0,.55);
-
-    display: flex;
-
-    justify-content: center;
-    align-items: center;
-
-    z-index: 100;
-}
-
-.modal.hidden {
-    display: none;
-}
-
-.modal-box {
-    background: white;
-
-    width: min(600px, 90%);
-
-    padding: 30px;
-
-    border-radius: 20px;
-
-    box-shadow: 0 15px 40px rgba(0,0,0,.3);
-}
-
-.modal-box h2 {
-    margin-top: 0;
-}
-
-textarea {
-    width: 100%;
-
-    height: 250px;
-
-    resize: vertical;
-
-    padding: 15px;
-
-    font-size: 17px;
-
-    border: 2px solid #ddd;
-
-    border-radius: 10px;
-
-    font-family: Arial;
-}
-
-.modal-buttons {
-    margin-top: 15px;
-
-    display: flex;
-
-    gap: 10px;
-}
-
-.gray-btn {
-    background: #777;
-
-    color: white;
-
-    padding: 15px 25px;
-
-    border-radius: 10px;
-
-    font-size: 17px;
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (max-width: 700px) {
-
-    header {
-        height: 75px;
-        padding: 0 15px;
+        duck.appendChild(item);
     }
 
-    h1 {
-        font-size: 20px;
-    }
 
-    .logo-duck {
-        font-size: 32px;
-    }
+    /* Tên */
 
-    .top-area {
-        height: 170px;
-    }
+    const nameTag =
+        document.createElement("div");
 
-    .timer {
-        width: 310px;
-        height: 75px;
-    }
+    nameTag.className =
+        "duck-name";
 
-    #timer {
-        font-size: 34px;
-    }
+    nameTag.textContent = name;
 
-    .race-area {
-        min-height: 500px;
-    }
 
-    .controls {
-        flex-wrap: wrap;
-        padding: 20px;
-    }
+    /* Số */
 
-    .duck-name {
-        left: 115px;
-    }
+    const rank =
+        document.createElement("div");
+
+    rank.className = "rank";
+
+    rank.textContent = index + 1;
+
+
+    lane.appendChild(rank);
+
+    lane.appendChild(duck);
+
+    lane.appendChild(nameTag);
+
+    raceTrack.appendChild(lane);
+
+
+    return {
+        element: duck,
+
+        position: 10,
+
+        speed: 0,
+
+        finished: false,
+
+        name: name
+    };
 }
+
+
+/* =========================================
+   TẠO TOÀN BỘ ĐƯỜNG ĐUA
+========================================= */
+
+function createRace() {
+
+    raceTrack.innerHTML = "";
+
+    ducks = [];
+
+    duckNames.forEach((name, index) => {
+
+        const duck =
+            createDuck(name, index);
+
+        ducks.push(duck);
+
+    });
+
+}
+
+
+/* =========================================
+   TÍNH VỊ TRÍ ĐÍCH
+========================================= */
+
+function getFinishPosition() {
+
+    const trackWidth =
+        raceTrack.parentElement.clientWidth;
+
+    return trackWidth - 190;
+}
+
+
+/* =========================================
+   BẮT ĐẦU ĐUA
+========================================= */
+
+function startRace() {
+
+    if (racing) return;
+
+    racing = true;
+
+    startBtn.disabled = true;
+
+    startBtn.textContent = "🏁 RACING...";
+
+
+    /* tốc độ riêng */
+
+    ducks.forEach((duck, index) => {
+
+        duck.speed =
+            0.7 +
+            Math.random() * 1.7;
+
+        duck.position = 10;
+
+        duck.finished = false;
+
+        duck.element.classList.add("running");
+
+    });
+
+
+    startTime = performance.now();
+
+    animationFrame =
+        requestAnimationFrame(updateRace);
+
+}
+
+
+/* =========================================
+   CHẠY GAME
+========================================= */
+
+function updateRace(now) {
+
+    if (!racing) return;
+
+
+    /* đồng hồ */
+
+    const elapsed =
+        now - startTime;
+
+    updateTimer(elapsed);
+
+
+    const finish =
+        getFinishPosition();
+
+
+    let finishedCount = 0;
+
+
+    ducks.forEach(duck => {
+
+        if (duck.finished) {
+
+            finishedCount++;
+
+            return;
+
+        }
+
+
+        /*
+          Tốc độ thay đổi nhẹ
+          để cuộc đua tự nhiên hơn
+        */
+
+        const randomMove =
+            Math.random() * 0.45;
+
+
+        duck.position +=
+            duck.speed + randomMove;
+
+
+        /* không vượt đích */
+
+        if (duck.position >= finish) {
+
+            duck.position = finish;
+
+            duck.finished = true;
+
+            duck.element.classList.remove("running");
+
+            finishedCount++;
+
+        }
+
+
+        duck.element.style.left =
+            duck.position + "px";
+
+    });
+
+
+    /* tất cả đã về đích */
+
+    if (finishedCount === ducks.length) {
+
+        finishRace();
+
+        return;
+
+    }
+
+
+    animationFrame =
+        requestAnimationFrame(updateRace);
+}
+
+
+/* =========================================
+   KẾT THÚC
+========================================= */
+
+function finishRace() {
+
+    racing = false;
+
+    cancelAnimationFrame(animationFrame);
+
+    startBtn.disabled = false;
+
+    startBtn.textContent = "🏁 START RACE!";
+
+    ducks.forEach(duck => {
+
+        duck.element.classList.remove("running");
+
+    });
+
+}
+
+
+/* =========================================
+   ĐỒNG HỒ
+========================================= */
+
+function updateTimer(milliseconds) {
+
+    const totalSeconds =
+        Math.floor(milliseconds / 1000);
+
+    const hours =
+        Math.floor(totalSeconds / 3600);
+
+    const minutes =
+        Math.floor(
+            (totalSeconds % 3600) / 60
+        );
+
+    const seconds =
+        totalSeconds % 60;
+
+
+    timerDisplay.textContent =
+
+        String(hours).padStart(2, "0")
+        + ":" +
+
+        String(minutes).padStart(2, "0")
+        + ":" +
+
+        String(seconds).padStart(2, "0");
+}
+
+
+/* =========================================
+   RESET
+========================================= */
+
+function resetRace() {
+
+    racing = false;
+
+    cancelAnimationFrame(animationFrame);
+
+    startBtn.disabled = false;
+
+    startBtn.textContent =
+        "🏁 START RACE!";
+
+    timerDisplay.textContent =
+        "00:00:00";
+
+    createRace();
+
+}
+
+
+/* =========================================
+   EDIT LIST
+========================================= */
+
+editBtn.addEventListener(
+    "click",
+    () => {
+
+        nameInput.value =
+            duckNames.join("\n");
+
+        editPanel.classList.remove("hidden");
+
+    }
+);
+
+
+/* =========================================
+   SAVE LIST
+========================================= */
+
+saveBtn.addEventListener(
+    "click",
+    () => {
+
+        const names =
+            nameInput.value
+                .split("\n")
+                .map(name => name.trim())
+                .filter(name => name.length > 0);
+
+
+        if (names.length === 0) {
+
+            alert("Hãy nhập ít nhất 1 tên!");
+
+            return;
+        }
+
+
+        duckNames = names;
+
+        resetRace();
+
+        editPanel.classList.add("hidden");
+
+    }
+);
+
+
+/* =========================================
+   CLOSE
+========================================= */
+
+closeBtn.addEventListener(
+    "click",
+    () => {
+
+        editPanel.classList.add("hidden");
+
+    }
+);
+
+
+/* =========================================
+   NÚT START
+========================================= */
+
+startBtn.addEventListener(
+    "click",
+    startRace
+);
+
+
+/* =========================================
+   NÚT RESET
+========================================= */
+
+resetBtn.addEventListener(
+    "click",
+    resetRace
+);
+
+
+/* =========================================
+   KHỞI ĐỘNG GAME
+========================================= */
+
+createRace();

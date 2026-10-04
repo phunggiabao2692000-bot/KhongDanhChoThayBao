@@ -1,101 +1,87 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-<meta charset="UTF-8">
-<title>Duck Race</title>
-<style>
-*{box-sizing:border-box}
-body{margin:0;font-family:Arial;background:#9ee4ff}
-header{height:70px;background:white;padding:15px 25px;font-size:25px;font-weight:bold}
-header span{color:#f5a900}
-#game{padding-top:25px}
-#timer{margin:auto;background:white;border:4px solid #20a9e8;<!DOCTYPE html>
-<html lang="vi">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Duck Race Name Picker</title>
+    <title>Duck Race - Name Picker</title>
 
     <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header class="header">
-
-    <div class="logo">
-        🦆 Duck Race
-        <span>Name Picker</span>
+<header>
+    <div class="logo-duck">🦆</div>
+    <div>
+        <div class="small-title">FREE TO PLAY</div>
+        <h1>Duck Race <span>Name Picker</span></h1>
     </div>
+</header>
 
-    <div class="header-buttons">
-        <button id="editButton" class="edit-button">
+<main>
+
+    <!-- Đồng hồ -->
+    <section class="top-area">
+        <div class="timer">
+            <span id="timer">00:00:00</span>
+        </div>
+    </section>
+
+    <!-- Đường đua -->
+    <section class="race-area">
+
+        <div class="finish-line">
+            <div>FINISH</div>
+        </div>
+
+        <div id="raceTrack"></div>
+
+    </section>
+
+    <!-- Nút -->
+    <section class="controls">
+
+        <button id="editBtn" class="green-btn">
             ☷ Edit List
         </button>
 
-        <button id="resetButton" class="reset-button">
+        <button id="startBtn" class="start-btn">
+            🏁 START RACE!
+        </button>
+
+        <button id="resetBtn" class="reset-btn">
             ↻
         </button>
-    </div>
 
-</header>
+    </section>
 
+</main>
 
-<section class="sky">
+<!-- Hộp chỉnh danh sách -->
+<div id="editPanel" class="modal hidden">
 
-    <div class="sun"></div>
+    <div class="modal-box">
 
-    <div id="timer">
-        00:00:00
-    </div>
+        <h2>Danh sách vịt</h2>
 
-</section>
+        <p>Nhập tên, mỗi dòng là một con vịt:</p>
 
+        <textarea id="nameInput">Nghĩa
+Đan Mạch
+Đại Bàng Đen
+Tốc Độ Sấm
+Hoàng Tử Vịt
+Siêu Vịt
+Vịt Xanh
+Vịt Lửa</textarea>
 
-<section id="raceTrack">
+        <div class="modal-buttons">
 
-    <div id="finishLine">
-        <span>FINISH</span>
-    </div>
-
-</section>
-
-
-<section class="controls">
-
-    <button id="startButton">
-        🏁 START RACE!
-    </button>
-
-    <div id="status">
-        Sẵn sàng xuất phát!
-    </div>
-
-</section>
-
-
-<!-- Hộp chỉnh tên -->
-
-<div id="editor" class="popup">
-
-    <div class="popup-box">
-
-        <h2>Danh sách người chơi</h2>
-
-        <p>
-            Mỗi dòng là một con vịt.
-        </p>
-
-        <textarea id="nameInput"></textarea>
-
-        <div class="popup-buttons">
-
-            <button id="saveNames">
-                Lưu
+            <button id="saveBtn" class="green-btn">
+                Lưu danh sách
             </button>
 
-            <button id="closeEditor">
+            <button id="closeBtn" class="gray-btn">
                 Đóng
             </button>
 
@@ -105,282 +91,7 @@ header span{color:#f5a900}
 
 </div>
 
-
-<!-- Hộp người thắng -->
-
-<div id="winnerPopup" class="popup">
-
-    <div class="popup-box winner-box">
-
-        <h1>🏆</h1>
-
-        <h2>Người chiến thắng!</h2>
-
-        <div id="winnerName"></div>
-
-        <button id="closeWinner">
-            Chạy lại
-        </button>
-
-    </div>
-
-</div>
-
-
 <script src="script.js"></script>
 
 </body>
 </html>
-border-radius:18px;width:330px;text-align:center;padding:12px;
-font-size:40px;font-weight:bold}<!DOCTYPE html>
-<html lang="vi">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Duck Race Name Picker</title>
-
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<header class="header">
-
-    <div class="logo">
-        🦆 Duck Race
-        <span>Name Picker</span>
-    </div>
-
-    <div class="header-buttons">
-        <button id="editButton" class="edit-button">
-            ☷ Edit List
-        </button>
-
-        <button id="resetButton" class="reset-button">
-            ↻
-        </button>
-    </div>
-
-</header>
-
-
-<section class="sky">
-
-    <div class="sun"></div>
-
-    <div id="timer">
-        00:00:00
-    </div>
-
-</section>
-
-
-<section id="raceTrack">
-
-    <div id="finishLine">
-        <span>FINISH</span>
-    </div>
-
-</section>
-
-
-<section class="controls">
-
-    <button id="startButton">
-        🏁 START RACE!
-    </button>
-
-    <div id="status">
-        Sẵn sàng xuất phát!
-    </div>
-
-</section>
-
-
-<!-- Hộp chỉnh tên -->
-
-<div id="editor" class="popup">
-
-    <div class="popup-box">
-
-        <h2>Danh sách người chơi</h2>
-
-        <p>
-            Mỗi dòng là một con vịt.
-        </p>
-
-        <textarea id="nameInput"></textarea>
-
-        <div class="popup-buttons">
-
-            <button id="saveNames">
-                Lưu
-            </button>
-
-            <button id="closeEditor">
-                Đóng
-            </button>
-
-        </div>
-
-    </div>
-
-</div>
-
-
-<!-- Hộp người thắng -->
-
-<div id="winnerPopup" class="popup">
-
-    <div class="popup-box winner-box">
-
-        <h1>🏆</h1>
-
-        <h2>Người chiến thắng!</h2>
-
-        <div id="winnerName"></div>
-
-        <button id="closeWinner">
-            Chạy lại
-        </button>
-
-    </div>
-
-</div>
-
-
-<script src="script.js"></script>
-
-</body>
-</html>
-#track{margin-top:70px;background:#087fb5;position:relative;padding-bottom:10px}
-.lane{height:65px;border-bottom:1px solid #ffffff33;position:relative}
-.num{position:absolute;left:15px;top:15px;background:white;
-padding:9px 13px;border-radius:10px;font-weight:bold}
-.name{position:absolute;left:100px;top:15px;background:white;
-padding:9px 14px;border-radius:12px;font-weight:bold}
-.duck{position:absolute;left:65px;top:7px;width:65px;height:50px}
-.duck svg{width:100%;height:100%}
-#finish{position:absolute;right:8%;top:0;bottom:0;width:12px;
-background:#ff5270;border:2px solid white}
-#finish:before{content:"FINISH";position:absolute;top:-25px;right:-17px;
-background:white;padding:5px;font-size:11px;font-weight:bold}
-#controls{background:white;padding:20px;text-align:center}
-button{border:0;border-radius:12px;padding:14px 22px;
-font-size:17px;font-weight:bold;cursor:pointer}
-#start{background:#ff9417;color:white;font-size:20px;margin-top:15px}
-#edit{background:#13b985;color:white}
-#editor{display:none;position:fixed;inset:0;background:#0008;
-align-items:center;justify-content:center}
-.box{background:white;padding:25px;border-radius:20px;width:400px}
-textarea{width:100%;height:220px;font-size:18px}
-</style>
-</head>
-
-<body>
-
-<header>🦆 Duck Race <span>Name Picker</span></header>
-
-<div id="game">
-<div id="timer">00:00:00</div>
-<div id="track"><div id="finish"></div></div>
-</div>
-
-<div id="controls">
-<button id="edit" onclick="editNames()">☷ Edit List</button>
-<button id="start" onclick="startRace()">🏁 START RACE!</button>
-</div>
-
-<div id="editor">
-<div class="box">
-<h2>Danh sách tên</h2>
-<textarea id="names"></textarea><br><br>
-<button onclick="saveNames()" style="background:#13b985;color:white">Lưu</button>
-<button onclick="closeEdit()">Đóng</button>
-</div>
-</div>
-
-<script>
-let names=[
-"nghĩa","đan mạch","Đại Đăng Đen","Tốc Độ Sấm",
-"Hoàng Tử Vịt","Vịt Lửa","Vịt Tím","Vịt Xanh"
-];
-
-let colors=["#ffd92f","#ff5252","#39a9ff","#35c759",
-"#a855f7","#ff8c20","#ff5fa2","#20d9c5"];
-
-let ducks=[],running=false,startTime;
-
-function duckSVG(color,i){
-let acc=[
-`<path d="M32 9L38 1l5 8 6-8 5 13H30z" fill="#ffd700" stroke="#222" stroke-width="2"/>`,
-`<path d="M30 9Q45 0 58 9L55 15H33z" fill="#2563eb" stroke="#222" stroke-width="2"/>`,
-`<circle cx="47" cy="16" r="7" fill="none" stroke="#222" stroke-width="3"/>`,
-`<path d="M30 29Q45 35 59 29v7Q45 42 30 36z" fill="#e63946" stroke="#222" stroke-width="2"/>`,
-`<rect x="34" y="3" width="23" height="8" fill="#222"/><rect x="30" y="10" width="31" height="4" fill="#222"/>`,
-`<ellipse cx="45" cy="7" rx="20" ry="5" fill="#8b4513" stroke="#222" stroke-width="2"/>`,
-`<circle cx="57" cy="30" r="9" fill="#e91e63" stroke="#222" stroke-width="2"/>`,
-`<path d="M29 22h29v13H29z" fill="#aaa" stroke="#222" stroke-width="2"/>`
-][i%8];
-
-return `<svg viewBox="0 0 70 50">
-<ellipse cx="29" cy="31" rx="22" ry="12" fill="${color}" stroke="#222" stroke-width="3"/>
-<ellipse cx="27" cy="31" rx="10" ry="7" fill="${color}" stroke="#222" stroke-width="2"/>
-<circle cx="43" cy="18" r="13" fill="${color}" stroke="#222" stroke-width="3"/>
-<circle cx="49" cy="14" r="3" fill="white"/><circle cx="50" cy="14" r="1.5"/>
-<path d="M55 17L68 21 55 25z" fill="#ff8c20" stroke="#222" stroke-width="2"/>
-<path d="M23 40l-3 7M34 40l-2 7" stroke="#e87518" stroke-width="3"/>
-${acc}</svg>`;
-}
-
-function create(){
-let track=document.getElementById("track");
-track.innerHTML='<div id="finish"></div>';
-ducks=[];
-
-names.forEach((n,i)=>{
-let lane=document.createElement("div");
-lane.className="lane";
-lane.innerHTML=`
-<div class="num">${i+1}</div>
-<div class="duck">${duckSVG(colors[i%8],i)}</div>
-<div class="name">${n}</div>`;
-track.appendChild(lane);
-
-ducks.push({
-el:lane.querySelector(".duck"),
-x:65,
-speed:2+Math.random()*3,
-name:n
-});
-});
-}
-
-function startRace(){
-if(running)return;
-running=true;
-startTime=Date.now();
-run();
-}
-
-function run(){
-if(!running)return;
-
-let finish=document.getElementById("track").clientWidth*.92;
-
-for(let d of ducks){
-d.speed+=Math.random()-.5;
-d.speed=Math.max(1,Math.min(6,d.speed));
-d.x+=d.speed;
-d.el.style.left=d.x+"px";
-
-if(d.x+65>=finish){
-running=false;
-setTimeout(()=>alert("🏆 Người thắng: "+d.name),100);
-return;
-}
-}
-
-let t=Math.floor((Date.now()-startTime)/1000);
-let h=Math.floor(t/

@@ -570,4 +570,943 @@ textarea {
             onclick="openEditor()">
 
             ☷ Edit List
-            (<span id="count">8</
+            (<span id="count">8</span>)
+
+        </button>
+
+        <button
+            class="reset-btn"
+            onclick="resetRace()">
+
+            ↻
+
+        </button>
+
+    </div>
+
+</header>
+
+
+
+<!-- =========================
+     GAME
+========================= -->
+
+<div class="game">
+
+    <div class="sun"></div>
+
+    <div
+        class="timer"
+        id="timer">
+
+        00:00:00
+
+    </div>
+
+
+    <div
+        class="race-track"
+        id="raceTrack">
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     CONTROL
+========================= -->
+
+<div class="controls">
+
+    <div class="keypad">
+
+        <button class="green">5</button>
+        <button class="green">6</button>
+        <button class="green">7</button>
+        <button class="green">8</button>
+        <button class="green">9</button>
+
+        <button class="green">Set</button>
+
+        <button>0</button>
+        <button>1</button>
+        <button>2</button>
+        <button>3</button>
+        <button>4</button>
+
+        <button>Clear</button>
+
+    </div>
+
+
+    <button
+        class="start"
+        onclick="startRace()">
+
+        🏁 START RACE!
+
+    </button>
+
+</div>
+
+
+
+<!-- =========================
+     WINNER
+========================= -->
+
+<div
+    class="winner"
+    id="winner">
+
+    <div class="winner-box">
+
+        <h1>
+            🏆 WINNER!
+        </h1>
+
+        <div
+            class="winner-name"
+            id="winnerName">
+
+        </div>
+
+        <br>
+
+        <button
+            class="start"
+            onclick="closeWinner()">
+
+            Chạy lại
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<!-- =========================
+     EDITOR
+========================= -->
+
+<div
+    class="edit-panel"
+    id="editor">
+
+    <div class="edit-box">
+
+        <h2>
+            🦆 Danh sách người chơi
+        </h2>
+
+        <p>
+            Mỗi dòng là một người.
+        </p>
+
+        <textarea
+            id="nameInput"></textarea>
+
+        <button
+            class="save-btn"
+            onclick="saveNames()">
+
+            Lưu danh sách
+
+        </button>
+
+        <button
+            class="close-btn"
+            onclick="closeEditor()">
+
+            Hủy
+
+        </button>
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+
+/* =========================
+   DANH SÁCH
+========================= */
+
+let names = [
+
+    "nghĩa",
+    "đan mạch",
+    "Đại Đăng Đen",
+    "Tốc Độ Sấm",
+    "Hoàng Tử Vịt",
+    ",,,",
+    "...",
+    "///"
+
+];
+
+
+let ducks = [];
+
+let racing = false;
+
+let startTime = 0;
+
+let timerInterval;
+
+
+/* =========================
+   THÔNG TIN VỊT
+========================= */
+
+const duckData = [
+
+    {
+        body: "#FFD92F",
+        head: "#FFE45C",
+        accessory: "crown"
+    },
+
+    {
+        body: "#EF4444",
+        head: "#FF5A5A",
+        accessory: "hero"
+    },
+
+    {
+        body: "#38A8FF",
+        head: "#55B8FF",
+        accessory: "glasses"
+    },
+
+    {
+        body: "#35C759",
+        head: "#50D86A",
+        accessory: "scarf"
+    },
+
+    {
+        body: "#A855F7",
+        head: "#B96CFF",
+        accessory: "hat"
+    },
+
+    {
+        body: "#FF8C20",
+        head: "#FFA044",
+        accessory: "cowboy"
+    },
+
+    {
+        body: "#FF5FA2",
+        head: "#FF78B4",
+        accessory: "bow"
+    },
+
+    {
+        body: "#20D9C5",
+        head: "#43E5D5",
+        accessory: "armor"
+    }
+
+];
+
+
+
+/* =========================
+   TẠO PHỤ KIỆN
+========================= */
+
+function getAccessory(type) {
+
+    if (type === "crown") {
+
+        return `
+            <path
+                d="M37 9 L41 2 L46 8 L51 2 L54 12 Z"
+                fill="#FFD700"
+                stroke="#222"
+                stroke-width="2"/>
+        `;
+
+    }
+
+
+    if (type === "hero") {
+
+        return `
+            <path
+                d="M31 7 Q44 0 57 7 L54 15
+                   Q44 11 34 15 Z"
+                fill="#2563EB"
+                stroke="#222"
+                stroke-width="2"/>
+        `;
+
+    }
+
+
+    if (type === "glasses") {
+
+        return `
+            <circle
+                cx="45"
+                cy="16"
+                r="6"
+                fill="none"
+                stroke="#222"
+                stroke-width="3"/>
+
+            <circle
+                cx="56"
+                cy="16"
+                r="6"
+                fill="none"
+                stroke="#222"
+                stroke-width="3"/>
+
+            <line
+                x1="51"
+                y1="16"
+                x2="50"
+                y2="16"
+                stroke="#222"
+                stroke-width="3"/>
+        `;
+
+    }
+
+
+    if (type === "scarf") {
+
+        return `
+            <path
+                d="M31 25 Q45 31 58 25
+                   L57 32 Q44 38 31 32 Z"
+                fill="#E63946"
+                stroke="#222"
+                stroke-width="2"/>
+        `;
+
+    }
+
+
+    if (type === "hat") {
+
+        return `
+            <rect
+                x="36"
+                y="3"
+                width="20"
+                height="7"
+                rx="2"
+                fill="#222"/>
+
+            <rect
+                x="32"
+                y="9"
+                width="28"
+                height="4"
+                rx="2"
+                fill="#222"/>
+        `;
+
+    }
+
+
+    if (type === "cowboy") {
+
+        return `
+            <ellipse
+                cx="47"
+                cy="7"
+                rx="20"
+                ry="5"
+                fill="#8B4513"
+                stroke="#222"
+                stroke-width="2"/>
+
+            <path
+                d="M37 8 Q47 -4 57 8
+                   L56 12 L38 12 Z"
+                fill="#A0522D"
+                stroke="#222"
+                stroke-width="2"/>
+        `;
+
+    }
+
+
+    if (type === "bow") {
+
+        return `
+            <path
+                d="M34 29 Q25 22 24 30
+                   Q25 37 35 33 Z"
+                fill="#E91E63"
+                stroke="#222"
+                stroke-width="2"/>
+
+            <path
+                d="M35 29 Q45 22 45 30
+                   Q44 37 35 33 Z"
+                fill="#E91E63"
+                stroke="#222"
+                stroke-width="2"/>
+
+            <circle
+                cx="35"
+                cy="31"
+                r="4"
+                fill="#FFD700"/>
+        `;
+
+    }
+
+
+    if (type === "armor") {
+
+        return `
+            <path
+                d="M29 21 L58 21 L58 34
+                   Q44 39 29 34 Z"
+                fill="#9CA3AF"
+                stroke="#222"
+                stroke-width="2"/>
+
+            <path
+                d="M43 23 L43 34"
+                stroke="#666"
+                stroke-width="2"/>
+        `;
+
+    }
+
+
+    return "";
+
+}
+
+
+
+/* =========================
+   TẠO VỊT SVG
+========================= */
+
+function createDuckSVG(data) {
+
+    const accessory =
+        getAccessory(data.accessory);
+
+
+    return `
+
+    <svg viewBox="0 0 70 50">
+
+        <!-- THÂN -->
+
+        <ellipse
+            cx="30"
+            cy="31"
+            rx="22"
+            ry="12"
+            fill="${data.body}"
+            stroke="#222"
+            stroke-width="3"/>
+
+
+        <!-- CÁNH -->
+
+        <ellipse
+            cx="27"
+            cy="31"
+            rx="10"
+            ry="7"
+            fill="${data.head}"
+            stroke="#222"
+            stroke-width="2"/>
+
+
+        <!-- ĐẦU -->
+
+        <circle
+            cx="43"
+            cy="18"
+            r="13"
+            fill="${data.head}"
+            stroke="#222"
+            stroke-width="3"/>
+
+
+        <!-- MẮT -->
+
+        <circle
+            cx="49"
+            cy="14"
+            r="3"
+            fill="white"
+            stroke="#222"
+            stroke-width="1"/>
+
+        <circle
+            cx="50"
+            cy="14"
+            r="1.5"
+            fill="black"/>
+
+
+        <!-- MỎ HƯỚNG PHẢI -->
+
+        <path
+            d="M55 17 L68 21 L55 25 Z"
+            fill="#FF8C20"
+            stroke="#222"
+            stroke-width="2"/>
+
+
+        <!-- CHÂN -->
+
+        <path
+            d="M23 40 L20 47
+               M34 40 L32 47"
+            stroke="#E87518"
+            stroke-width="3"
+            stroke-linecap="round"/>
+
+
+        <!-- PHỤ KIỆN -->
+
+        ${accessory}
+
+    </svg>
+
+    `;
+
+}
+
+
+
+/* =========================
+   TẠO ĐƯỜNG ĐUA
+========================= */
+
+function createRace() {
+
+    const track =
+        document.getElementById("raceTrack");
+
+
+    track.innerHTML = `
+
+        <div class="finish"></div>
+
+        <div class="finish-label">
+            FINISH
+        </div>
+
+    `;
+
+
+    ducks = [];
+
+
+    names.forEach((name, index) => {
+
+
+        const lane =
+            document.createElement("div");
+
+        lane.className = "lane";
+
+
+        const number =
+            document.createElement("div");
+
+        number.className = "number";
+
+        number.textContent =
+            index + 1;
+
+
+        const duck =
+            document.createElement("div");
+
+        duck.className = "duck";
+
+
+        const data =
+            duckData[index % duckData.length];
+
+
+        duck.innerHTML =
+            createDuckSVG(data);
+
+
+        duck.style.left =
+            "70px";
+
+
+        const nameBox =
+            document.createElement("div");
+
+        nameBox.className = "name";
+
+        nameBox.textContent =
+            name;
+
+
+        lane.appendChild(number);
+
+        lane.appendChild(duck);
+
+        lane.appendChild(nameBox);
+
+        track.appendChild(lane);
+
+
+        ducks.push({
+
+            element: duck,
+
+            name: name,
+
+            position: 70,
+
+            speed:
+                Math.random() * 2 + 2
+
+        });
+
+    });
+
+
+    document.getElementById("count")
+        .textContent = names.length;
+
+}
+
+
+
+/* =========================
+   START
+========================= */
+
+function startRace() {
+
+    if (racing) return;
+
+
+    if (names.length === 0) {
+
+        alert("Chưa có tên!");
+
+        return;
+
+    }
+
+
+    racing = true;
+
+    startTime =
+        Date.now();
+
+
+    updateTimer();
+
+    raceLoop();
+
+}
+
+
+
+/* =========================
+   CHẠY
+========================= */
+
+function raceLoop() {
+
+    if (!racing) return;
+
+
+    const track =
+        document.getElementById("raceTrack");
+
+
+    /*
+       Vạch đích nằm bên phải.
+       Vịt chạy từ trái sang phải.
+    */
+
+    const finishPosition =
+        track.clientWidth * 0.93 - 60;
+
+
+    let winner = null;
+
+
+    ducks.forEach(duck => {
+
+
+        /*
+           Tốc độ thay đổi
+           ngẫu nhiên một chút
+        */
+
+        duck.speed +=
+            (Math.random() - 0.5) * 0.6;
+
+
+        duck.speed =
+            Math.max(
+                1,
+                Math.min(
+                    6,
+                    duck.speed
+                )
+            );
+
+
+        duck.position +=
+            duck.speed;
+
+
+        duck.element.style.left =
+            duck.position + "px";
+
+
+        if (
+            duck.position >=
+            finishPosition
+        ) {
+
+            winner = duck;
+
+        }
+
+    });
+
+
+    if (winner) {
+
+        racing = false;
+
+        clearInterval(
+            timerInterval
+        );
+
+        showWinner(
+            winner.name
+        );
+
+        return;
+
+    }
+
+
+    requestAnimationFrame(
+        raceLoop
+    );
+
+}
+
+
+
+/* =========================
+   ĐỒNG HỒ
+========================= */
+
+function updateTimer() {
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    timerInterval =
+        setInterval(() => {
+
+
+            if (!racing) return;
+
+
+            const elapsed =
+                Date.now() -
+                startTime;
+
+
+            let seconds =
+                Math.floor(
+                    elapsed / 1000
+                );
+
+
+            let minutes =
+                Math.floor(
+                    seconds / 60
+                );
+
+
+            let hours =
+                Math.floor(
+                    minutes / 60
+                );
+
+
+            seconds %= 60;
+
+            minutes %= 60;
+
+
+            document.getElementById(
+                "timer"
+            ).textContent =
+
+                String(hours)
+                    .padStart(2,"0")
+
+                + ":"
+
+                + String(minutes)
+                    .padStart(2,"0")
+
+                + ":"
+
+                + String(seconds)
+                    .padStart(2,"0");
+
+
+        }, 1000);
+
+}
+
+
+
+/* =========================
+   WINNER
+========================= */
+
+function showWinner(name) {
+
+    document.getElementById(
+        "winnerName"
+    ).textContent = name;
+
+
+    document.getElementById(
+        "winner"
+    ).style.display = "flex";
+
+}
+
+
+function closeWinner() {
+
+    document.getElementById(
+        "winner"
+    ).style.display = "none";
+
+
+    resetRace();
+
+}
+
+
+
+/* =========================
+   RESET
+========================= */
+
+function resetRace() {
+
+    racing = false;
+
+    clearInterval(
+        timerInterval
+    );
+
+
+    document.getElementById(
+        "timer"
+    ).textContent =
+        "00:00:00";
+
+
+    createRace();
+
+}
+
+
+
+/* =========================
+   EDIT LIST
+========================= */
+
+function openEditor() {
+
+    document.getElementById(
+        "nameInput"
+    ).value =
+        names.join("\n");
+
+
+    document.getElementById(
+        "editor"
+    ).style.display = "flex";
+
+}
+
+
+function closeEditor() {
+
+    document.getElementById(
+        "editor"
+    ).style.display = "none";
+
+}
+
+
+function saveNames() {
+
+    const text =
+        document.getElementById(
+            "nameInput"
+        ).value;
+
+
+    names =
+        text
+            .split("\n")
+            .map(
+                x => x.trim()
+            )
+            .filter(
+                x => x !== ""
+            );
+
+
+    closeEditor();
+
+    resetRace();
+
+}
+
+
+
+/* =========================
+   KHỞI TẠO
+========================= */
+
+createRace();
+
+</script>
+
+</body>
+</html>

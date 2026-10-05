@@ -735,3 +735,29 @@ textarea {
         left: 115px;
     }
 }
+/* ===== TÊN ĐI THEO VỊT ===== */
+
+.duck-name {
+    position: absolute !important;
+
+    left: 82px !important;
+    top: -32px !important;
+
+    transform: translateX(-50%) !important;
+
+    background: white;
+    color: #172033;
+
+    padding: 6px 12px;
+
+    border-radius: 10px;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    white-space: nowrap;
+
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.15);
+
+    z-index: 30;
+}

@@ -195,8 +195,8 @@ function createDuck(name, index) {
         "duck-name";
 
     nameTag.textContent = name;
-
-
+    
+    duck.appendChild(nameTag);
     /* Số */
 
     const rank =
@@ -210,9 +210,6 @@ function createDuck(name, index) {
     lane.appendChild(rank);
 
     lane.appendChild(duck);
-
-    lane.appendChild(nameTag);
-
     raceTrack.appendChild(lane);
 
 

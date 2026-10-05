@@ -499,20 +499,26 @@ h1 span {
 .duck-name {
     position: absolute;
 
-    left: 125px;
-    top: 8px;
+    left: 50%;
+    top: -32px;
+
+    transform: translateX(-50%);
 
     background: white;
+    color: #172033;
 
-    padding: 8px 14px;
+    padding: 6px 12px;
 
     border-radius: 10px;
 
     font-weight: bold;
+    font-size: 14px;
 
     white-space: nowrap;
 
-    box-shadow: 0 2px 5px rgba(0,0,0,.12);
+    box-shadow: 0 2px 5px rgba(0,0,0,.15);
+
+    z-index: 30;
 }
 
 /* số thứ tự */

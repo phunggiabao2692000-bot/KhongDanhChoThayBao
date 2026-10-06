@@ -789,3 +789,31 @@ function followLeader() {
 }
 
 followLeader();
+.race-viewport {
+    position: relative;
+    width: 100%;
+    height: 700px;
+
+    overflow: hidden; /* camera không cho map tràn ra ngoài */
+    background: #159dcc;
+}
+
+.race-track {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 3000px;       /* sông dài */
+    height: 700px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #43c8e8 0%,
+            #1da8d3 35%,
+            #1295c1 70%,
+            #087eaa 100%
+        );
+
+    transition: transform 0.08s linear;
+}

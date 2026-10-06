@@ -555,3 +555,35 @@ resetBtn.addEventListener(
 ========================================= */
 
 createRace();
+// Biến kiểm tra xem đã có vịt về đích chưa (để tránh hiện nhiều lần)
+let isRaceFinished = false;
+
+// 1. Hàm hiển thị bảng chiến thắng với tên con vịt
+function showWinner(duckName) {
+    if (isRaceFinished) return; // Nếu đã có vịt thắng rồi thì bỏ qua
+    isRaceFinished = true;
+
+    // Gán tên con vịt vào bảng thông báo
+    document.getElementById('winnerName').innerText = duckName;
+    
+    // Hiển thị bảng Popup
+    const modal = document.getElementById('winnerModal');
+    modal.style.display = 'flex';
+}
+
+// 2. Hàm đóng bảng chiến thắng khi bấm nút "Chơi lại"
+function closeWinnerModal() {
+    document.getElementById('winnerModal').style.display = 'none';
+    isRaceFinished = false;
+    location.reload(); // Tải lại trang để chơi lại màn mới
+}
+
+// 3. Trong vòng lặp di chuyển của trò chơi (Game Loop / Move Ducks):
+// Khi kiểm tra vị trí con vịt chạm vạch FINISH, bạn gọi hàm showWinner():
+/*
+    Dưới đây là đoạn ví dụ logic kiểm tra va chạm vạch đích:
+    
+    if (duck.x >= finishLineX) {
+        showWinner(duck.name); // Truyền tên con vịt vào đây (ví dụ: "Đan Mạch", "Đại Bàng Đen"...)
+    }
+*/

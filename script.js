@@ -317,8 +317,24 @@ function updateRace(now) {
         now - startTime;
 
     updateTimer(elapsed);
+showWinner
+// Hàm hiện bảng tên con vịt thắng cuộc
+function showWinner(duckName) {
+    // 1. Gán tên vịt vào phần tử trong HTML
+    const winnerNameEl = document.getElementById('winnerName');
+    if (winnerNameEl) {
+        winnerNameEl.innerText = duckName;
+    }
 
-
+    // 2. Hiện bảng Modal
+    const modal = document.getElementById('winnerModal');
+    if (modal) {
+        modal.style.display = 'flex';
+    } else {
+        // Nếu chưa thêm HTML modal, dùng thông báo mặc định của trình duyệt để test nhanh
+        alert("🎉 Chúc mừng " + duckName + " đã chiến thắng!");
+    }
+}
     const finish =
         getFinishPosition();
 

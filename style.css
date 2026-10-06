@@ -210,7 +210,75 @@ h1 span {
 /* đầu */
 
 .duck-head {
-    position: absolute;
+    position: absolute;/* --- PHẦN 1: TẠO NỀN DÒNG SÔNG VÀ VỜI CHÂN THỰC --- */
+
+/* Đặt hình nền dòng sông cho toàn bộ trang */
+body {
+    /* Hình nền dòng sông chân thực */
+    background-image: url('https://images.unsplash.com/photo-1542310168-5f9926f04b20?q=80&w=2000&auto=format&fit=crop'); 
+    /* Đặt nền để bao phủ toàn bộ màn hình và không lặp lại */
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Giữ nền cố định khi cuộn */
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    position: relative;
+}
+
+/* Thêm hiệu ứng gợn sóng nước giả */
+body::after {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Tạo hiệu ứng mờ và gợn sóng */
+    background-image: url('https://www.transparenttextures.com/patterns/water-multiply.png');
+    opacity: 0.1; /* Giảm độ mờ để nhìn tự nhiên */
+    pointer-events: none; /* Cho phép click xuyên qua lớp này */
+    z-index: 0;
+}
+
+
+/* --- PHẦN 2: CHỈNH SỬA CÁC PHẦN TỬ KHÁC ĐỂ TRÔNG TỰ NHIÊN --- */
+
+/* Phủ một lớp màu nhẹ lên khu vực đua để vịt nổi bật hơn */
+#race-track {
+    background-color: rgba(135, 206, 235, 0.4); /* Xanh lam nhạt trong suốt */
+    border-radius: 15px; /* Bo góc */
+    margin: 20px auto;
+    padding: 15px;
+    z-index: 1; /* Hiển thị phía trên nền */
+    position: relative;
+    max-width: 900px;
+}
+
+/* Làm cho nhãn tên vịt trông như đang nổi */
+.duck label {
+    background-color: rgba(255, 255, 255, 0.9); /* Trắng trong suốt */
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Tạo bóng */
+    color: #333;
+    padding: 3px 8px;
+    border-radius: 20px;
+}
+
+/* Đảm bảo timer và các nút vẫn dễ nhìn */
+.timer-display {
+    background-color: rgba(255, 255, 255, 0.95); /* Trắng trong suốt */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.button-container {
+    background-color: rgba(255, 255, 255, 0.85); /* Trắng trong suốt */
+    padding: 10px;
+    border-radius: 10px;
+    margin-top: 20px;
+    z-index: 1;
+    position: relative;
+}
 
     left: 64px;
     top: 1px;

@@ -761,3 +761,31 @@ textarea {
 
     z-index: 30;
 }
+function followLeader() {
+    const ducks = [...document.querySelectorAll(".duck")];
+
+    if (!ducks.length) return;
+
+    // Tìm con vịt chạy xa nhất
+    const leader = ducks.reduce((a, b) =>
+        a.offsetLeft > b.offsetLeft ? a : b
+    );
+
+    const leaderX = leader.offsetLeft;
+
+    // Đặt vịt dẫn đầu gần giữa màn hình
+    let translateX =
+        viewport.clientWidth / 2 - leaderX;
+
+    const minMove = viewport.clientWidth - track.scrollWidth;
+
+    translateX = Math.min(0, translateX);
+    translateX = Math.max(minMove, translateX);
+
+    track.style.transform =
+        `translateX(${translateX}px)`;
+
+    requestAnimationFrame(followLeader);
+}
+
+followLeader();
